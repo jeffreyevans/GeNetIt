@@ -1,0 +1,25 @@
+citHeader("To cite GeNetIt package in publications please use:")
+   bibentry(
+     bibtype = "Manual",
+     title = "GeNetIt",
+     author = c(
+	    person(c("Jeffrey", "S."), "Evans", role = c("aut", "cre")),
+ 	    person(c("Melanie", "A."), "Murphy", role = c("aut"))
+     ),
+     year = "2015",
+     note = "R package version 0.1-0",
+   )
+
+citHeader("citation for gravity method Murphy et al., (2010)")   
+   bibentry(
+    bibtype = "Article",
+	author = as.person("M.A. Murphy, R. Dezzani, D.S. Polliod, A.S. Storfer"),
+	title = "Landscape genetics of high mountain frog metapopulations",
+	journal = "Molecular Ecology",
+	number = "19",
+    volume = "17",
+	pages="3634-3649",
+    year = "2010",
+	key = "gravity model",
+   )   
+  

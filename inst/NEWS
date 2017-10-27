@@ -1,0 +1,9 @@
+GeNetIt_0.1-0
+=================
+
+* First release of package for Spatial Graph-theoretic Genetic Gravity Modelling
+
+GeNetIt_0.1-1
+=================
+
+* Added log likelihood to the gravity function,  which is the current preference over AIC in evaluating competing models

@@ -1,0 +1,27 @@
+Package: GeNetIt
+Type: Package
+Title: Spatial Graph-Theoretic Genetic Gravity Modelling
+Version: 0.1-1
+Date: 2017-07-31
+Authors@R: c(person(family="Evans", given="Jeffrey S.", email = "jeffrey_evans@tnc.org", 
+             role = c("aut", "cre")), person(family="Murphy", given="Melanie", role = "aut") )
+Description: Implementation of spatial graph-theoretic genetic gravity models.
+    The model framework is applicable for other types of spatial flow questions.
+    Includes functions for constructing spatial graphs, sampling and summarizing
+    associated raster variables and building unconstrained and singly constrained
+    gravity models.
+Depends:
+    R (>= 3.1.0)
+Imports:
+    nlme,
+    sp,
+    spdep,
+    spatialEco,
+    raster,
+	rgeos
+Maintainer: Jeffrey S. Evans <jeffrey_evans@tnc.org>
+License: GPL-3
+NeedsCompilation: no
+Repository: CRAN
+LazyData: true
+RoxygenNote: 6.0.1
