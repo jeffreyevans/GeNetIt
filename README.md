@@ -33,3 +33,5 @@ Available functions in GeNetIt are:
          rasters - Subset of raster data for Columbia spotted frog (Rana luteiventris)
 
          summary.gravity - generic summary function for gravity model objects
+
+**Bugs**: Users are encouraged to report bugs here. Go to [issues](https://github.com/jeffreyevans/GeNetIt/issues) in the menu above, and press new issue to start a new bug report, documentation correction or feature request. You can direct questions to <jeffrey_evans@tnc.org>.
