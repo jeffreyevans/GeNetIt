@@ -1,4 +1,10 @@
 # GeNetIt
+
+[![CRAN
+status](http://www.r-pkg.org/badges/version/GeNetIt)](https://cran.r-project.org/package=GeNetIt)
+[![CRAN RStudio mirror
+downloads](http://cranlogs.r-pkg.org/badges/GeNetIt)](https://cran.r-project.org/package=GeNetIt)
+
 GeNetIt R package for spatial graph-theoretic gravity modelling with implementation of spatial graph-theoretic genetic gravity models.
 The model framework is applicable for other types of spatial flow questions. Includes functions for constructing spatial graphs, sampling and summarizing associated raster variables and building unconstrained and singly constrained gravity models.
 
