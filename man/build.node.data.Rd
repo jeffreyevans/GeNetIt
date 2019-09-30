@@ -7,9 +7,9 @@
 build.node.data(x, group.ids, from.parms, to.parms = NULL)
 }
 \arguments{
-\item{x}{A data.frame contaning node (site) data}
+\item{x}{A data.frame containing node (site) data}
 
-\item{group.ids}{Character vector of unique identifer that can be used to join to graph}
+\item{group.ids}{Character vector of unique identifier that can be used to join to graph}
 
 \item{from.parms}{Character vector of independent "from" variables}
 
@@ -19,12 +19,16 @@ build.node.data(x, group.ids, from.parms, to.parms = NULL)
 data.frame
 }
 \description{
-Helper funtion to build the origin/destination node data structure.
+Helper function to build the origin/destination node data structure.
 }
 \note{
-Unless a different set of parameters will be used as the destination (to) there is no need to define the argument "to.parms" and the "from.parm" will be used to define both set of parameters.
+Unless a different set of parameters will be used as the destination (to) there 
+      is no need to define the argument "to.parms" and the "from.parm" will be used to 
+      define both set of parameters.
 
-The resulting data.frame represents the origin (from) and destination (to) data structure for use in garavity model. This is node structure is also know in the gravity literature as producer (from) and attractor (to).
+The resulting data.frame represents the origin (from) and destination (to) data 
+      structure for use in gravity model. This is node structure is also know in the 
+      gravity literature as producer (from) and attractor (to).
 }
 \examples{
 data(ralu.site)

@@ -2,25 +2,25 @@
 % Please edit documentation in R/knn.graph.R
 \name{knn.graph}
 \alias{knn.graph}
-\title{Saturated or K Nearest Neighbour Graph}
+\title{Saturated or K Nearest Neighbor Graph}
 \usage{
-knn.graph(x, row.names = NULL, k = NULL, max.dist = NULL, sym = FALSE,
-  long.lat = FALSE, drop.diag = FALSE)
+knn.graph(x, row.names = NULL, k = NULL, max.dist = NULL,
+  sym = FALSE, long.lat = FALSE, drop.lower = FALSE)
 }
 \arguments{
 \item{x}{sp SpatialPointsDataFrame object}
 
 \item{row.names}{Unique row.names assigned to results}
 
-\item{k}{K nearest neighbours}
+\item{k}{K nearest neighbors}
 
 \item{max.dist}{Maximum length of an edge (used for distance constraint)}
 
 \item{sym}{Create symmetrical graph (FALSE/TRUE)}
 
-\item{long.lat}{Coordinates are longitude-latitude decimal degrees (FALSE/TRUE), in which case distances are measured in kilometers}
+\item{long.lat}{(FALSE/TRUE) Coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers}
 
-\item{drop.diag}{Drop diag (duplicate edges) (FALSE/TRUE)}
+\item{drop.lower}{(FALSE/TRUE) Drop lower triangle of matrix (duplicate edges)}
 }
 \value{
 SpatialLinesDataFrame object with:
@@ -37,12 +37,12 @@ Creates a kNN or saturated graph SpatialLinesDataFrame object
 ...
 }
 \examples{
- library(sp) 
+   library(sp) 
    data(ralu.site)
 
  # Saturated spatial graph
  sat.graph <- knn.graph(ralu.site, row.names=ralu.site@data[,"SiteName"])
-  head(sat.graph@data)
+   head(sat.graph@data)
  
  # Distanced constrained spatial graph
  dist.graph <- knn.graph(ralu.site, row.names=ralu.site@data[,"SiteName"], max.dist = 5000)

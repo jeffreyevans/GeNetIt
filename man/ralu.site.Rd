@@ -7,7 +7,7 @@
 \format{A SpatialPointsDataFrame with 31 obs. of  17 variables:
 \describe{
 \item{SiteName}{Unique site name}
-\item{Drainage}{Source draniage}
+\item{Drainage}{Source drainage}
 \item{Basin}{source basin}
 \item{Substrate}{Wetland substrate}
 \item{NWI}{USFWS NWI Wetland type}

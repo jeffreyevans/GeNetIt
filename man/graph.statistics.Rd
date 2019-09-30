@@ -12,7 +12,7 @@ graph.statistics(x, r, d = 30, stats = c("min", "mean", "max"),
 
 \item{r}{A rasterLayer, rasterStack or rasterBrick object}
 
-\item{d}{Sample distance along edge, for alternate sampline options see sample.line.}
+\item{d}{Sample distance along edge, for alternate sampling options see sample.line.}
 
 \item{stats}{Statistics to calculate. If vectorized, can pass a custom statistic function.}
 
@@ -44,11 +44,12 @@ skew <- function(x, na.rm = TRUE) {
           if (na.rm) x <- x[!is.na(x)]
           sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
 		}
-		
-stats <- graph.statistics(dist.graph, r = xvars, d=30, 
-            stats = c("min", "median", "max", "var", "skew"),
-            sp = FALSE) 
-			
+
+ system.time( {		
+  stats <- graph.statistics(dist.graph, r = xvars, d=30, 
+              stats = c("min", "median", "max", "var", "skew"),
+              sp = FALSE) 
+ } ) 			
 dist.graph@data <- data.frame(dist.graph@data, stats)
   str(dist.graph@data)
 }

@@ -35,15 +35,17 @@ gravity.es <- function(x, actual.n = FALSE, alpha = 0.95) {
     eff$cohen.d <- (2 * eff$t.value) / sqrt(eff$df)
   eff <- eff[-1,]
     eff <- data.frame(eff, p.value=round(summary(x$gravity)$tTable[,5],6)[-1]) 
-    cohen.ci <- function(d, n, conf.level = alpha) {
+	cohen.ci <- function(d, n, conf.level = alpha) {
       deg.f = n + n - 2
-      SD <- sqrt(((n + n)/(n * n) + 0.5 * es[,1][i] ^ 2 / deg.f) * 
-                ((n + n) / deg.f))
+      #SD <- sqrt(((n + n)/(n * n) + 0.5 * es[,1][i] ^ 2 / deg.f) * 
+      #          ((n + n) / deg.f))
+      SD <- sqrt(((n + n)/(n * n) + 0.5 * d ^ 2 / deg.f) * 
+                ((n + n) / deg.f))				
             Z <- -stats::qt((1 - alpha) / 2, deg.f)
           conf.int <- c(d - Z * SD, d + Z * SD)
 	    ci <- c(low.ci=conf.int[1], up.ci=conf.int[2])
       return(ci)
-    }
+    }	
     ci <- list()	
 	  for(i in 1:nrow(eff)) {
 	    if(actual.n) N = length(x$y) else N = eff[,2][i] 
