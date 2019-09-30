@@ -4,27 +4,33 @@
 \alias{graph.statistics}
 \title{Point sample and statistics for edges (lines)}
 \usage{
-graph.statistics(x, r, d = 30, stats = c("min", "mean", "max"),
-  sp = FALSE, ...)
+graph.statistics(x, r, stats = c("min", "mean", "max"),
+  subsample = FALSE, d = 30, sp = FALSE, ...)
 }
 \arguments{
 \item{x}{sp class SpatialLinesDataFrame object}
 
 \item{r}{A rasterLayer, rasterStack or rasterBrick object}
 
-\item{d}{Sample distance along edge, for alternate sampling options see sample.line.}
-
 \item{stats}{Statistics to calculate. If vectorized, can pass a custom statistic function.}
+
+\item{subsample}{(FALSE/TRUE) Draw a point subsample of lines}
+
+\item{d}{Sample distance along edge, for alternate sampling options see sample.line.}
 
 \item{sp}{Include an sp class SpatialPointsDataFrame object of the line point samples (FALSE/TRUE)}
 
 \item{...}{Additional argument passed to sample.line and spsample}
 }
 \value{
-data.frame object unless sp=TRUE then, list with data.frame of statistics and SpatialPointsDataFrame contaning point sample data for edges
+data.frame object unless sp=TRUE then, list with data.frame of statistics and 
+         SpatialPointsDataFrame contaning point sample data for edges
 }
 \description{
 Samples rasters for each edge and calculates specified statistics
+}
+\note{
+...
 }
 \examples{
 \dontrun{
@@ -44,12 +50,11 @@ skew <- function(x, na.rm = TRUE) {
           if (na.rm) x <- x[!is.na(x)]
           sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
 		}
-
  system.time( {		
-  stats <- graph.statistics(dist.graph, r = xvars, d=30, 
-              stats = c("min", "median", "max", "var", "skew"),
-              sp = FALSE) 
- } ) 			
+  stats <- graph.statistics(dist.graph, r = xvars,  
+              stats = c("min", "median", "max", "var", "skew")) 
+ } ) 
+
 dist.graph@data <- data.frame(dist.graph@data, stats)
   str(dist.graph@data)
 }
