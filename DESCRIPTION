@@ -18,6 +18,7 @@ Imports:
     spdep,
     spatialEco,
     raster,
+	velox,
 	rgeos
 Maintainer: Jeffrey S. Evans <jeffrey_evans@tnc.org>
 License: GPL-3
