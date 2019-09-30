@@ -21,6 +21,7 @@ Imports:
 	rgeos
 Maintainer: Jeffrey S. Evans <jeffrey_evans@tnc.org>
 License: GPL-3
+URL: https://github.com/jeffreyevans/GeNetIt
 NeedsCompilation: no
 Repository: CRAN
 Encoding: UTF-8
