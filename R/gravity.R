@@ -3,7 +3,7 @@
 #' 
 #' @param y              Name of dependent variable
 #' @param x              Character vector of independent variables
-#' @param d              Name of column contaning distance
+#' @param d              Name of column containing distance
 #' @param group          Name of grouping column (from or to)
 #' @param data           data.frame object containing model data
 #' @param ln             Natural log transform data (TRUE/FALSE) 
@@ -19,8 +19,13 @@
 #' @return groups            Ordered factor vector of grouping variable
 #' @return fit               Model Fitted Values
 #'
-#' @note The "group" factor defines the singly constrained direction (from or to) and the grouping structure for the origins.
-#' @note To specify a null (distance only or IBD) model just omit the x argument.
+#' @details 
+#' The "group" factor defines the singly constrained direction (from or to) and the grouping 
+#' structure for the origins. To specify a null (distance only or IBD) model just omit the x argument. 
+#'
+#' By default constrained models are fit by maximizing the restricted log-likelihood (REML), 
+#' for maximum likelihood use the type="ML" argument which is passed to the lme function. If ln=TRUE 
+#' the input data will be log transformed  
 #'
 #' @note Depends: nlme, lattice
 #'
@@ -58,6 +63,10 @@
 #' # Distance only (IBD) model
 #' gravity(y = "DPS", d = "DISTANCE", group = "FROM_SITE", 
 #'         data = ralu.model, ln = FALSE)
+#'
+#' @seealso \code{\link[nlme]{groupedData}} for how grouping works in constrained model 
+#' @seealso \code{\link[nlme]{lme}} for constrained model ... options
+#' @seealso \code{\link[stats]{lm}} for linear model ... options
 #'
 #' @import nlme
 #' @exportClass gravity

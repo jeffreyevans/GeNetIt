@@ -3,7 +3,7 @@
 #'
 #' @param x      sp class SpatialLinesDataFrame object 
 #' @param r      A rasterLayer, rasterStack or rasterBrick object
-#' @param d      Sample distance along edge, for alternate sampline options see sample.line. 
+#' @param d      Sample distance along edge, for alternate sampling options see sample.line. 
 #' @param stats  Statistics to calculate. If vectorized, can pass a custom statistic function. 
 #' @param sp     Include an sp class SpatialPointsDataFrame object of the line point samples (FALSE/TRUE) 
 #' @param ...    Additional argument passed to sample.line and spsample  
@@ -28,11 +28,12 @@
 #'           if (na.rm) x <- x[!is.na(x)]
 #'           sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
 #' 		}
-#' 		
-#' stats <- graph.statistics(dist.graph, r = xvars, d=30, 
-#'             stats = c("min", "median", "max", "var", "skew"),
-#'             sp = FALSE) 
-#' 			
+#' 
+#'  system.time( {		
+#'   stats <- graph.statistics(dist.graph, r = xvars, d=30, 
+#'               stats = c("min", "median", "max", "var", "skew"),
+#'               sp = FALSE) 
+#'  } ) 			
 #' dist.graph@@data <- data.frame(dist.graph@@data, stats)
 #'   str(dist.graph@@data)
 #' }
@@ -47,8 +48,9 @@ graph.statistics <- function(x, r, d = 30, stats = c("min", "mean", "max"),
 	            stop("r is not a raster object")
     dots <- as.list(match.call(expand.dots = TRUE)[-1])
     dots[["x"]] <- x
+	dots[["d"]] <- d
   if (is.null(dots[["min.samp"]]) & "min.samp" %in% names(dots) == FALSE) dots[["min.samp"]] <-  2
-  if (is.null(dots[["type"]]) & "type" %in% names(dots) == FALSE) dots[["type"]] <-  "regular"
+    if (is.null(dots[["type"]]) & "type" %in% names(dots) == FALSE) dots[["type"]] <-  "regular"
   samp <- do.call(spatialEco::sample.line, dots)
   samp@data <- data.frame(samp@data, raster::extract(r, samp))
   results <- NULL
