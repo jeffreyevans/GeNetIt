@@ -8,7 +8,7 @@ downloads](http://cranlogs.r-pkg.org/badges/grand-total/GeNetIt)](https://cran.r
 GeNetIt R package for spatial graph-theoretic gravity modelling with implementation of spatial graph-theoretic genetic gravity models.
 The model framework is applicable for other types of spatial flow questions. Includes functions for constructing spatial graphs, sampling and summarizing associated raster variables and building unconstrained and singly constrained gravity models.
 
-# Available functions in GeNetIt are:
+# Available functions in GeNetIt 0.1-2 are:
 
 ​
 
@@ -34,8 +34,8 @@ The model framework is applicable for other types of spatial flow questions. Inc
 
          print.gravity - Print gravity model
 
-         ralu.model - Columbia spotted frog (Rana luteiventris) data for specifying gravity model. Note, the data.frame is  
-                      already log transformed.
+         ralu.model - Columbia spotted frog (Rana luteiventris) data for specifying gravity model.   
+                        Note, the data.frame is already log transformed.
 
          ralu.site - Subset of site-level spatial point data for Columbia spotted frog (Rana luteiventris)
 
