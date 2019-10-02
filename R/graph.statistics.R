@@ -10,7 +10,7 @@
 #' @param ...        Additional argument passed to sample.line and spsample  
 #'	
 #' @return data.frame object unless sp=TRUE then, list with data.frame of statistics and 
-#'          SpatialPointsDataFrame contaning point sample data for edges
+#'          SpatialPointsDataFrame containing point sample data for edges
 #'
 #' @note ...
 #'  
@@ -21,23 +21,33 @@
 #' library(raster)
 #'   data(rasters)
 #'   data(ralu.site)
-#'
+#' 
 #' xvars <- stack(rasters)
 #' 
-#' dist.graph <- knn.graph(ralu.site, row.names = ralu.site@@data[,"SiteName"], 
-#'                         max.dist = 1500)
+#'  dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
+#'                          max.dist = 1500)
 #'   str(dist.graph@data)
 #'   
 #' skew <- function(x, na.rm = TRUE) {  
 #'           if (na.rm) x <- x[!is.na(x)]
 #'           sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
 #' 		}
-#'  system.time( {		
-#'   stats <- graph.statistics(dist.graph, r = xvars,  
-#'               stats = c("min", "median", "max", "var", "skew")) 
-#'  } ) 
 #'
-#' dist.graph@@data <- data.frame(dist.graph@@data, stats)
+#'# Moments on continuous raster data
+#' system.time( {		
+#'  stats <- graph.statistics(dist.graph, r = xvars[[-6]],  
+#'              stats = c("min", "median", "max", "var", "skew")) 
+#' } ) 
+#'
+#'# Proportional function on nominal raster data		
+#'p <- function(x) { length(x[x < 52]) / length(x) }	
+#'	
+#'  system.time( {		
+#'   nstats <- graph.statistics(dist.graph, r = xvars[[6]],  
+#'               stats = "p") 
+#'  } ) 	
+#'
+#' dist.graph@@data <- data.frame(dist.graph@@data, stats, nstats)
 #'   str(dist.graph@@data)
 #' }
 #' 
