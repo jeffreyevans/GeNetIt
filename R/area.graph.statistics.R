@@ -11,5 +11,5 @@
 area.graph.statistics <- function(...) {
      .Deprecated("area.graph.statistics", package="GeNetIt", 
 	 msg="this function is depreciated, please use graph.statistics with buffer argument")
-  area.graph.statistics(...)
+  graph.statistics(...)
 }
