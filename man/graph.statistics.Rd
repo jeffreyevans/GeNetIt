@@ -4,8 +4,8 @@
 \alias{graph.statistics}
 \title{Point sample and statistics for edges (lines)}
 \usage{
-graph.statistics(x, r, stats = c("min", "mean", "max"),
-  subsample = FALSE, d = 30, sp = FALSE, ...)
+graph.statistics(x, r, stats = c("min", "mean", "max"), buffer = NULL,
+  subsample = FALSE, d = 30, ...)
 }
 \arguments{
 \item{x}{sp class SpatialLinesDataFrame object}
@@ -14,17 +14,16 @@ graph.statistics(x, r, stats = c("min", "mean", "max"),
 
 \item{stats}{Statistics to calculate. If vectorized, can pass a custom statistic function.}
 
+\item{buffer}{Buffer distance, radius in projection units. For statistics based on edge buffer distance}
+
 \item{subsample}{(FALSE/TRUE) Draw a point subsample of lines}
 
 \item{d}{Sample distance along edge, for alternate sampling options see sample.line.}
 
-\item{sp}{Include an sp class SpatialPointsDataFrame object of the line point samples (FALSE/TRUE)}
-
 \item{...}{Additional argument passed to sample.line and spsample}
 }
 \value{
-data.frame object unless sp=TRUE then, list with data.frame of statistics and 
-         SpatialPointsDataFrame contaning point sample data for edges
+data.frame object of statistics
 }
 \description{
 Samples rasters for each edge and calculates specified statistics
@@ -42,20 +41,37 @@ library(raster)
 
 xvars <- stack(rasters)
 
-dist.graph <- knn.graph(ralu.site, row.names = ralu.site@data[,"SiteName"], 
-                        max.dist = 1500)
+ dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
+                         max.dist = 1500)
   str(dist.graph@data)
   
 skew <- function(x, na.rm = TRUE) {  
           if (na.rm) x <- x[!is.na(x)]
           sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
 		}
- system.time( {		
-  stats <- graph.statistics(dist.graph, r = xvars,  
-              stats = c("min", "median", "max", "var", "skew")) 
- } ) 
 
-dist.graph@data <- data.frame(dist.graph@data, stats)
+# Moments on continuous raster data
+system.time( {		
+ stats <- graph.statistics(dist.graph, r = xvars[[-6]],  
+             stats = c("min", "median", "max", "var", "skew")) 
+} ) 
+
+# Proportional function on nominal raster data		
+p <- function(x) { length(x[x < 52]) / length(x) }	
+
+ system.time( {		
+  nstats <- graph.statistics(dist.graph, r = xvars[[6]],  
+              stats = "p") 
+ } ) 	
+
+# Based on 500m buffer distance around line(s)
+system.time( {		
+ stats <- graph.statistics(dist.graph, r = xvars[[-6]],  
+             stats = c("min", "median", "max", "var", "skew"),
+		  buffer = 500) 
+} )
+
+dist.graph@data <- data.frame(dist.graph@data, stats, nstats)
   str(dist.graph@data)
 }
 

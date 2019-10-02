@@ -4,47 +4,11 @@
 \alias{area.graph.statistics}
 \title{Statistics for edges (lines) based on a defined scale (area).}
 \usage{
-area.graph.statistics(x, r, s = 500, stats = c("min", "mean", "max"),
-  echo = FALSE)
+area.graph.statistics(...)
 }
 \arguments{
-\item{x}{sp class SpatialLinesDataFrame object}
-
-\item{r}{A rasterLayer, rasterStack or rasterBrick object}
-
-\item{s}{Scale (buffer distance) for analysis}
-
-\item{stats}{Statistics to calculate. If vectorized, can pass a custom statistic function.}
-
-\item{echo}{Echo progress (TRUE/FALSE)}
-}
-\value{
-data.frame object with defined statistics, for each raster, at each edge in graph
+\item{...}{Parameters to be passed to the modern version of the function}
 }
 \description{
 Samples rasters for each edge and calculates specified statistics
-}
-\examples{
-\dontrun{
-library(sp)
-library(spdep)
-library(raster)
-  data(rasters)
-  data(ralu.site)
-
-xvars <- stack(rasters[-6])
-
-dist.graph <- knn.graph(ralu.site, row.names = ralu.site@data[,"SiteName"], 
-                        max.dist = 500)
-  str(dist.graph@data)
-  
-skew <- function(x, na.rm = TRUE) {  
-          if (na.rm) x <- x[!is.na(x)]
-          sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
-		}
-		
-area.graph.statistics(dist.graph[1:5,], r = xvars, s = 500, 
-           stats = c("min", "median", "max", "var", "skew")) 
-}
-
 }

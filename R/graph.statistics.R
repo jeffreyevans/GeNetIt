@@ -5,12 +5,11 @@
 #' @param r          A rasterLayer, rasterStack or rasterBrick object
 #' @param d          Sample distance along edge, for alternate sampling options see sample.line. 
 #' @param stats      Statistics to calculate. If vectorized, can pass a custom statistic function. 
-#' @param sp         Include an sp class SpatialPointsDataFrame object of the line point samples (FALSE/TRUE) 
+#' @param buffer     Buffer distance, radius in projection units. For statistics based on edge buffer distance 
 #' @param subsample  (FALSE/TRUE) Draw a point subsample of lines
 #' @param ...        Additional argument passed to sample.line and spsample  
 #'	
-#' @return data.frame object unless sp=TRUE then, list with data.frame of statistics and 
-#'          SpatialPointsDataFrame containing point sample data for edges
+#' @return data.frame object of statistics 
 #'
 #' @note ...
 #'  
@@ -47,19 +46,27 @@
 #'               stats = "p") 
 #'  } ) 	
 #'
+#'# Based on 500m buffer distance around line(s)
+#' system.time( {		
+#'  stats <- graph.statistics(dist.graph, r = xvars[[-6]],  
+#'              stats = c("min", "median", "max", "var", "skew"),
+#'			  buffer = 500) 
+#' } )
+#'
 #' dist.graph@@data <- data.frame(dist.graph@@data, stats, nstats)
 #'   str(dist.graph@@data)
 #' }
 #' 
 #' @import velox
 #' @export graph.statistics
-graph.statistics <- function(x, r, stats = c("min", "mean", "max"), 
-                                   subsample = FALSE, d = 30, sp = FALSE, ...) {
+graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NULL,  
+                             subsample = FALSE, d = 30, ...) {
   if(!inherits(x, "SpatialLinesDataFrame")) 
     stop("x is not a SpatialLinesDataFrame object")
   if (!inherits(r, "RasterLayer") &  !inherits(r, "RasterStack") &
 	  !inherits(r, "RasterBrick") ) 
 	    stop("r is not a raster object")
+  if(!is.null(buffer) & subsample == TRUE) stop("Cannot buffer point subsample")		
     rvx <- velox::velox(r)
   if(subsample) {
     #### Subsample line using points 				
@@ -92,10 +99,14 @@ graph.statistics <- function(x, r, stats = c("min", "mean", "max"),
     results <- as.data.frame(results)
 	  rn <- vector()
 	    for(n in names(r)) { rn <- append(rn, paste(stats, n, sep="."))}
-	      names(results) <- rn		  
-    if( sp == TRUE) results <- list(statistics = results, sample = samp)		  
+	      names(results) <- rn  
   } else {
-  #### Subsample line using points
+  #### Extract all values intersecting lines
+  if(!is.null(buffer)) {
+    message(paste0("Using ", buffer, " distance for statistics"))
+    x <- rgeos::gBuffer(x, byid = TRUE, id = row.names(x), 
+                        width = buffer, quadseg = 100)
+  }
     ldf <- rvx$extract(sp = x)
 	  names(ldf) <- row.names(x)
     stats.fun <- function(x, m = stats) {
@@ -110,10 +121,6 @@ graph.statistics <- function(x, r, stats = c("min", "mean", "max"),
 	rn <- vector()
 	  for(n in stats) { rn <- append(rn, paste(n, names(r), sep="."))}
 	    names(results) <- rn 
-    if( sp == TRUE) {
-	  x@data <- data.frame(x@data, results)
-      results <- x
-    }	  
   }
   return( results )
 }
