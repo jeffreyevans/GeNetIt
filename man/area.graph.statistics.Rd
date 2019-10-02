@@ -10,5 +10,10 @@ area.graph.statistics(...)
 \item{...}{Parameters to be passed to the modern version of the function}
 }
 \description{
-Samples rasters for each edge and calculates specified statistics
+Samples rasters for each edge and calculates specified 
+             statistics for buffer distance
+}
+\note{
+Please note that this function has been deprecated, please use graph.statistics 
+      with the buffer argument.
 }
