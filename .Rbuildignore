@@ -4,3 +4,4 @@ cran-comments.md
 LICENSE
 README.md
 .git
+^CRAN-RELEASE$

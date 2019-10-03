@@ -13,4 +13,6 @@ GeNetIt_0.1-2
 
 * Added function "flow" to coerce distance matrices to flow
 
+* Depreciated area.graph.statistics, added this functionality to graph.statistics with buffer argument 
+
 * Changed graph.statistics to leverage velox extraction, orders of magnitude faster

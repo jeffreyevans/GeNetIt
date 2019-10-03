@@ -17,21 +17,26 @@
 #'   data(ralu.model)
 #' 
 #' x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
-#' gm_h1 <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
-#'                 data = ralu.model, ln = FALSE, method="ML") 
-#' gm_h2 <- gravity(y = "DPS", x = x[1:3], d = "DISTANCE", group = "FROM_SITE", 
-#'                 data = ralu.model, ln = FALSE, method="ML") 
-#' gm_h3 <- gravity(y = "DPS", x = x[c(4:5)], d = "DISTANCE", group = "FROM_SITE", 
-#'                 data = ralu.model, ln = FALSE, method="ML") 
+#' ( gm_null <-  gravity(y = "DPS", x = c("DISTANCE"), d = "DISTANCE",  
+#'                  group = "FROM_SITE", data = ralu.model, method = "ML") )
+#'
+#' ( gm_h1 <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
+#'                  data = ralu.model, ln = FALSE, method="ML") ) 
+#' ( gm_h2 <- gravity(y = "DPS", x = x[1:3], d = "DISTANCE", group = "FROM_SITE", 
+#'                 data = ralu.model, ln = FALSE, method="ML") ) 
+#' ( gm_h3 <- gravity(y = "DPS", x = x[c(4:5)], d = "DISTANCE", group = "FROM_SITE", 
+#'                 data = ralu.model, ln = FALSE, method="ML") ) 
 #' 
-#' compare.models(gm_h1, gm_h2, gm_h3)
+#' compare.models(null, gm_h1, gm_h2, gm_h3)
 #'
 #' @export compare.models 
 compare.models <- function(...) {
   dots <- list(...)
-    mn <- deparse(substitute(list(...)))
-	  mn <- regmatches(mn, gregexpr("(?<=\\().*?(?=\\))", mn, perl=TRUE))[[1]]
-        mn <- trimws(unlist(strsplit(mn, ",")))	
+    #mn <- deparse(substitute(list(...)))
+	#mn <- regmatches(mn, gregexpr("(?<=\\().*?(?=\\))", mn, perl=TRUE))[[1]]
+    #mn <- trimws(unlist(strsplit(mn, ",")))		
+    varnames = lapply(substitute(list(...))[-1], deparse)
+      mn <- unlist(lapply(varnames, as.character))	
 	  for(i in 1:length(dots)){ 
 	    if(!inherits(dots[[i]], "gravity")) 
 		  stop(paste0(mn[i], " is not a valid gravity model object") ) 
@@ -54,11 +59,12 @@ compare.models <- function(...) {
                           RMSE = round(rmse(x$y,x$fit),4),
                           nparms = x$np )  
       } else if( method == "ML" ) {
+	    if(is.null(x$np)) { np = 0 } else { np = x$np } 
         xdf <- data.frame(AIC = stats::AIC(x),
 		                  BIC = stats::BIC(x),
                           log.likelihood = x$logLik,
                           RMSE = round(rmse(x$y,x$fit),4),
-						  nparms = x$np )
+						  nparms = np )
       }
 	  return(xdf)  
 	}
@@ -67,5 +73,5 @@ compare.models <- function(...) {
 	    ldf$deltaAIC = ldf$AIC - min(ldf$AIC)
         ldf$deltaBIC = ldf$BIC - min(ldf$BIC)		
 	  } 
-  return( data.frame(model = mn, ldf) )
+  return( data.frame(model = as.character(mn), ldf) )
 }
