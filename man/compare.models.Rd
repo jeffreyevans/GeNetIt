@@ -24,14 +24,17 @@ library(nlme)
   data(ralu.model)
 
 x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
-gm_h1 <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
-                data = ralu.model, ln = FALSE, method="ML") 
-gm_h2 <- gravity(y = "DPS", x = x[1:3], d = "DISTANCE", group = "FROM_SITE", 
-                data = ralu.model, ln = FALSE, method="ML") 
-gm_h3 <- gravity(y = "DPS", x = x[c(4:5)], d = "DISTANCE", group = "FROM_SITE", 
-                data = ralu.model, ln = FALSE, method="ML") 
+( null <-  gravity(y = "DPS", x = c("DISTANCE"), d = "DISTANCE",  
+                 group = "FROM_SITE", data = ralu.model, method = "ML") )
 
-compare.models(gm_h1, gm_h2, gm_h3)
+( gm_h1 <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
+                 data = ralu.model, ln = FALSE, method="ML") ) 
+( gm_h2 <- gravity(y = "DPS", x = x[1:3], d = "DISTANCE", group = "FROM_SITE", 
+                data = ralu.model, ln = FALSE, method="ML") ) 
+( gm_h3 <- gravity(y = "DPS", x = x[c(4:5)], d = "DISTANCE", group = "FROM_SITE", 
+                data = ralu.model, ln = FALSE, method="ML") ) 
+
+compare.models(null, gm_h1, gm_h2, gm_h3)
 
 }
 \references{

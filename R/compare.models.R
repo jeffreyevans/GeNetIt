@@ -17,7 +17,7 @@
 #'   data(ralu.model)
 #' 
 #' x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
-#' ( gm_null <-  gravity(y = "DPS", x = c("DISTANCE"), d = "DISTANCE",  
+#' ( null <-  gravity(y = "DPS", x = c("DISTANCE"), d = "DISTANCE",  
 #'                  group = "FROM_SITE", data = ralu.model, method = "ML") )
 #'
 #' ( gm_h1 <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 

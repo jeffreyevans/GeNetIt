@@ -16,3 +16,8 @@ GeNetIt_0.1-2
 * Depreciated area.graph.statistics, added this functionality to graph.statistics with buffer argument 
 
 * Changed graph.statistics to leverage velox extraction, orders of magnitude faster
+
+GeNetIt_0.1-3
+=================
+
+* New function "node.statistics" for calculating raster statistics at nodes
