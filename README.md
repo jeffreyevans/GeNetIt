@@ -1,4 +1,4 @@
-# GeNetIt (CRAN 0.1-1, development 0.1-2)
+# GeNetIt (CRAN 0.1-2, development 0.1-3)
 
 [![CRAN
 status](http://www.r-pkg.org/badges/version/GeNetIt)](https://cran.r-project.org/package=GeNetIt)
@@ -8,27 +8,33 @@ downloads](http://cranlogs.r-pkg.org/badges/grand-total/GeNetIt)](https://cran.r
 GeNetIt R package for spatial graph-theoretic gravity modelling with implementation of spatial graph-theoretic genetic gravity models.
 The model framework is applicable for other types of spatial flow questions. Includes functions for constructing spatial graphs, sampling and summarizing associated raster variables and building unconstrained and singly constrained gravity models.
 
-# Available functions in GeNetIt 0.1-2 are:
+# Available functions in GeNetIt 0.1-3 are:
 
 ​
 
-         area.graph.statistics - Statistics for edges (lines) based on a defined scale (area).
+         area.graph.statistics - Depreciated, please use graph.statistics with buffer argument
 
-         build.node.data - Build node data
+         build.node.data - Build node data 
 
-         compare.models - Compare competeting hypothesis (models)
+         compare.models - Compare competing hypothesis (models)
          
          dmatrix.df - Distance matrix to data.frame
 
          dps - dps genetic distance matrix for Columbia spotted frog (Rana luteiventris)
 
-         graph.statistics - Point sample and statistics for edges (lines)
+         flow - Convert distance matrix to flow (1-d)
+		 
+		 graph.statistics - Raster statistics for edges (lines)
 
-         gravity - Gravity model
+         gravity.es - Effect size for a gravity model
+		 
+		 gravity - Gravity model
 
          knn.graph - Saturated or K Nearest Neighbor Graph
 
-         plot.gravity - Generic plot function for a gravity model object
+         node.statistics - Raster statistics for nodes (points)
+		 
+		 plot.gravity - Generic plot function for a gravity model object
 
          predict.gravity - Predict gravity model
 
