@@ -4,8 +4,15 @@
 \alias{knn.graph}
 \title{Saturated or K Nearest Neighbor Graph}
 \usage{
-knn.graph(x, row.names = NULL, k = NULL, max.dist = NULL,
-  sym = FALSE, long.lat = FALSE, drop.lower = FALSE)
+knn.graph(
+  x,
+  row.names = NULL,
+  k = NULL,
+  max.dist = NULL,
+  sym = FALSE,
+  long.lat = FALSE,
+  drop.lower = FALSE
+)
 }
 \arguments{
 \item{x}{sp SpatialPointsDataFrame object}

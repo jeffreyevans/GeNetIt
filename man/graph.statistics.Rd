@@ -4,8 +4,15 @@
 \alias{graph.statistics}
 \title{Point sample and statistics for edges (lines)}
 \usage{
-graph.statistics(x, r, stats = c("min", "mean", "max"), buffer = NULL,
-  subsample = FALSE, d = 30, ...)
+graph.statistics(
+  x,
+  r,
+  stats = c("min", "mean", "max"),
+  buffer = NULL,
+  subsample = FALSE,
+  d = 30,
+  ...
+)
 }
 \arguments{
 \item{x}{sp class SpatialLinesDataFrame object}

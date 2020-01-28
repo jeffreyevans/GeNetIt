@@ -6,8 +6,8 @@ citHeader("To cite GeNetIt package in publications please use:")
 	    person(c("Jeffrey", "S."), "Evans", role = c("aut", "cre")),
  	    person(c("Melanie", "A."), "Murphy", role = c("aut"))
      ),
-     year = "2015",
-     note = "R package version 0.1-0",
+     year = "2020",
+     note = "R package version 0.1-3",
    )
 
 citHeader("citation for gravity method Murphy et al., (2010)")   

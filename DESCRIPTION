@@ -2,7 +2,7 @@ Package: GeNetIt
 Type: Package
 Title: Spatial Graph-Theoretic Genetic Gravity Modelling
 Version: 0.1-3
-Date: 2019-10-10
+Date: 2020-01-28
 Authors@R: c(person(family="Evans", given="Jeffrey S.", email = "jeffrey_evans@tnc.org", 
              role = c("aut", "cre")), person(family="Murphy", given="Melanie", role = "aut") )
 Description: Implementation of spatial graph-theoretic genetic gravity models.
@@ -27,4 +27,4 @@ NeedsCompilation: no
 Repository: CRAN
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

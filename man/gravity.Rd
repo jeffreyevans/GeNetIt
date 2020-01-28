@@ -74,7 +74,7 @@ x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
    x1 = c(x[1], x[-which(x \%in\% i)])  
    ll <- gravity(y = "DPS", x = x1, d = "DISTANCE", group = "FROM_SITE", 
                 data = ralu.model, ln = FALSE)$log.likelihood
-  cat("log likelihood for parameter set:", "(",x1,")", "=", ll, "\\n")				 
+  cat("log likelihood for parameter set:", "(",x1,")", "=", ll, "\n")				 
  }
 
 
