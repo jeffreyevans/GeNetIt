@@ -21,3 +21,8 @@ GeNetIt_0.1-3
 =================
 
 * New function "node.statistics" for calculating raster statistics at nodes
+
+GeNetIt_0.1-4
+=================
+
+* Due to depreciation, changed velox dependency to exactextractr for raster extraction

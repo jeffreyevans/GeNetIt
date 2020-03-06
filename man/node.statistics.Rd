@@ -51,7 +51,6 @@ system.time( {
              stats = c("min", "median", "max", "var", "skew")) 
 } ) 
 
-
 dist.graph@data <- data.frame(dist.graph@data, stats, nstats)
   str(dist.graph@data)
 }
