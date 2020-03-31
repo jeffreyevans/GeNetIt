@@ -7,7 +7,8 @@
 #' @param group          Name of grouping column (from or to)
 #' @param data           data.frame object containing model data
 #' @param ln             Natural log transform data (TRUE/FALSE) 
-#' @param constrained    Specify constrained model, if FALSE a linear model (lm) is run (TRUE/FALSE)
+#' @param constrained    Specify constrained model, if FALSE a linear model (lm) 
+#'                       is run (TRUE/FALSE)
 #' @param ...            Additional argument passed to nlme or lm      
 #' 
 #' @return formula           Model formula  
@@ -20,21 +21,25 @@
 #' @return fit               Model Fitted Values
 #'
 #' @details 
-#' The "group" factor defines the singly constrained direction (from or to) and the grouping 
-#' structure for the origins. To specify a null (distance only or IBD) model just omit the x argument. 
+#' The "group" factor defines the singly constrained direction (from or to) and the 
+#' grouping structure for the origins. To specify a null (distance only or IBD) 
+#' model just omit the x argument. 
 #'
-#' By default constrained models are fit by maximizing the restricted log-likelihood (REML), 
-#' for maximum likelihood use the type="ML" argument which is passed to the lme function. If ln=TRUE 
-#' the input data will be log transformed  
+#' By default constrained models are fit by maximizing the restricted log-likelihood 
+#' (REML), for maximum likelihood use the type="ML" argument which is passed to the 
+#' lme function. If ln=TRUE the input data will be log transformed  
 #'
 #' @note Depends: nlme, lattice
 #'
-#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and Melanie Murphy <melanie.murphy@@uwyo.edu>
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @references
-#' Murphy, M. A. & J.S. Evans. (in prep). GenNetIt: graph theoretical gravity modeling for landscape genetics
+#' Murphy, M. A. & J.S. Evans. (in prep). GenNetIt: graph theoretical gravity modeling 
+#'   for landscape genetics
 #' @references
-#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
+#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+#'   high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
 #'
 #' @examples 
 #' library(nlme)
@@ -58,7 +63,6 @@
 #'                 data = ralu.model, ln = FALSE)$log.likelihood
 #'	  cat("log likelihood for parameter set:", "(",x1,")", "=", ll, "\n")				 
 #'  }
-#'
 #'
 #' # Distance only (IBD) model
 #' gravity(y = "DPS", d = "DISTANCE", group = "FROM_SITE", 
@@ -92,8 +96,9 @@ gravity <- function(y, x, d, group, data, ln = TRUE, constrained = TRUE, ...) {
     gm <- list(formula=fmla, gravity=gvlmm, AIC=gvaic, x=gdata[,x], y=gdata[,y],
 	           fit = stats::fitted(gvlmm) ) 		   
        } else {	   
-	if(!"groupedData" %in% class(gdata)) stop ("Data must be a groupedData object for singly-constrained gravity model")
-	  print("Running singly-constrained gravity model")
+	if(!"groupedData" %in% class(gdata)) 
+	  stop ("Data must be a groupedData object for singly-constrained gravity model")
+	print("Running singly-constrained gravity model")
 	    gvlmm <- nlme::lme(fmla, stats::as.formula(paste("random = ~1", group, sep=" | ")), 
 		                   data = gdata, ...)
         gvaic <- stats::AIC(gvlmm)

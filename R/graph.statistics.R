@@ -13,7 +13,7 @@
 #' @note ...
 #'  
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'  library(sp)
 #'  library(spdep)
 #'  library(raster)

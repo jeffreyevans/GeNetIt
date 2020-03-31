@@ -6,11 +6,11 @@
 #' @method summary gravity
 #' @export
 summary.gravity <- function(object, ...) {
-  cat("Gravity model summary\n\n") 
   rmse <- function(y, x) { sqrt(mean((y - x)^2)) }
+  message("Gravity model summary\n\n") 
   print(object$formula) 
   print(summary(object$gravity))
-  print( paste("AIC = ", round(object$AIC,3), sep=""))
-  print( paste("log likelihood = ", round(object$log.likelihood,3), sep=""))
-  print( paste("RMSE = ", round(rmse(object$y, object$fit),4), sep=""))  
+  message( paste("AIC = ", round(object$AIC,3), sep=""))
+  message( paste("log likelihood = ", round(object$log.likelihood,3), sep=""))
+  message( paste("RMSE = ", round(rmse(object$y, object$fit),4), sep=""))  
 }

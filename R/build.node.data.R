@@ -2,20 +2,25 @@
 #' @description Helper function to build the origin/destination node data structure. 
 #' 
 #' @param x              A data.frame containing node (site) data
-#' @param group.ids      Character vector of unique identifier that can be used to join to graph
+#' @param group.ids      Character vector of unique identifier that can be used to join 
+#'                       to graph
 #' @param from.parms     Character vector of independent "from" variables
-#' @param to.parms       Character vector of independent "to" variables. If NULL is the same as from.parms
+#' @param to.parms       Character vector of independent "to" variables. If NULL is 
+#'                       the same as from.parms
 #' 
 #' @return data.frame 
 #'
-#' @note Unless a different set of parameters will be used as the destination (to) there 
-#'       is no need to define the argument "to.parms" and the "from.parm" will be used to 
-#'       define both set of parameters.  
-#' @note The resulting data.frame represents the origin (from) and destination (to) data 
-#'       structure for use in gravity model. This is node structure is also know in the 
-#'       gravity literature as producer (from) and attractor (to). 
+#' @note 
+#' Unless a different set of parameters will be used as the destination (to) there 
+#' is no need to define the argument "to.parms" and the "from.parm" will be used to 
+#' define both set of parameters.  
+#' @note 
+#' The resulting data.frame represents the origin (from) and destination (to) data 
+#' structure for use in gravity model. This is node structure is also know in the 
+#' gravity literature as producer (from) and attractor (to). 
 #'
-#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and Melanie Murphy <melanie.murphy@@uwyo.edu>
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @examples 
 #' data(ralu.site)

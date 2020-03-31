@@ -4,12 +4,15 @@
 #' 
 #' @param x             A numeric vector or matrix object representing distances
 #' @param standardize   (FALSE/TRUE) Row-standardize the data before calculating flow
-#' @param rm.na         (TRUE/FALSE) Should NA's be removed, if FALSE (default) the will be retained in the results 
-#' @param diag.value    If x is a matrix, what diagonal matrix values should be used (default is NA) 
+#' @param rm.na         (TRUE/FALSE) Should NA's be removed, if FALSE (default) the 
+#'                      will be retained in the results 
+#' @param diag.value    If x is a matrix, what diagonal matrix values should be 
+#'                      used (default is NA) 
 #'
 #' @return A vector or matrix representing flow values  
 #'
-#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and Melanie Murphy <melanie.murphy@@uwyo.edu>
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @examples 
 #' #### On a distance vector

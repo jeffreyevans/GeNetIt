@@ -3,18 +3,23 @@
 #' 
 #' @param x          gravity model object 
 #' @param alpha      confidence interval
-#' @param actual.n   (FALSE/TRUE) Use actual N or degrees of freedom in calculating Confidence Interval
+#' @param actual.n   (FALSE/TRUE) Use actual N or degrees of freedom 
+#'                   in calculating Confidence Interval
 #'
 #' @return data.frame of parameter effect size
 #'
-#' @details Calculate Cohen's D statistic for each effect in a gravity model object
+#' @details 
+#' Calculate Cohen's D statistic for each effect in a gravity model object
 #'
-#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and Melanie Murphy <melanie.murphy@@uwyo.edu>
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @references
-#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
+#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+#'   high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
 #' @references
-#' Cohen, J. (1988) Statistical power for the behavioral sciences (2nd ed.). Hillsdale, NJ: Erlbaum 
+#' Cohen, J. (1988) Statistical power for the behavioral sciences (2nd ed.). 
+#'   Hillsdale, NJ: Erlbaum 
 #'
 #' @examples  
 #' library(nlme)

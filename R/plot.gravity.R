@@ -45,7 +45,6 @@ plot.gravity <- function(x, type = 1, ...) {
     }  
   if(type == 5) {
   # FITTED VALUES	
-    options(warn=-1)	   
   	graphics::boxplot(stats::residuals(x$gravity, type="pearson", level=1) ~ x$groups,
               ylab="Innermost Residuals", xlab="Origin",
               notch=T, varwidth = T, at=rank(nlme::ranef(x$gravity)[[1]]))

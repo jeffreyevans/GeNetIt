@@ -7,22 +7,29 @@
 #' @param max.dist       Maximum length of an edge (used for distance constraint)
 #' @param sym            Create symmetrical graph (FALSE/TRUE)
 #' @param drop.lower     (FALSE/TRUE) Drop lower triangle of matrix (duplicate edges) 
-#' @param long.lat       (FALSE/TRUE) Coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers
+#' @param long.lat       (FALSE/TRUE) Coordinates are longitude-latitude decimal degrees, 
+#'                        in which case distances are measured in kilometers
 #' 
 #' @return   SpatialLinesDataFrame object with:
-#'    i        Name of column in x with FROM (origin) index
-#'    j        Name of column in x with TO (destination) index
-#'    from_ID     Name of column in x with FROM (origin) region ID
-#'    to_ID     Name of column in x with TO (destination) region ID
-#'    length   Length of each edge (line) in projection units or kilometers if long.lat = TRUE
+#' * i        Name of column in x with FROM (origin) index
+#' * j        Name of column in x with TO (destination) index
+#' * from_ID  Name of column in x with FROM (origin) region ID
+#' * to_ID    Name of column in x with TO (destination) region ID
+#' * length   Length of each edge (line) in projection units or kilometers 
+#'            if long.lat = TRUE
+#' @md
 #'
 #' @note ...
 #'
-#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and Melanie Murphy <melanie.murphy@@uwyo.edu>
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @references
-#' Murphy, M. A. & J.S. Evans. (in prep). "GenNetIt: gravity analysis in R for landscape genetics" 
-#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
+#' Murphy, M. A. & J.S. Evans. (in prep). "GenNetIt: gravity analysis in R for landscape 
+#'   genetics" 
+#' @references
+#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+#'   high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
 #'
 #' @examples
 #'    library(sp) 
@@ -33,8 +40,10 @@
 #'    head(sat.graph@data)
 #'  
 #'  # Distanced constrained spatial graph
-#'  dist.graph <- knn.graph(ralu.site, row.names=ralu.site@@data[,"SiteName"], max.dist = 5000)
+#'  dist.graph <- knn.graph(ralu.site, row.names=ralu.site@@data[,"SiteName"], 
+#'                          max.dist = 5000)
 #'	
+#' opar <- par(no.readonly=TRUE)
 #'  par(mfrow=c(1,2))	
 #'	plot(sat.graph, col="grey")
 #'	  points(ralu.site, col="red", pch=20, cex=1.5)
@@ -43,17 +52,18 @@
 #'	plot(dist.graph, col="grey")
 #'	  points(ralu.site, col="red", pch=20, cex=1.5)
 #'      box()
-#'      title("Distance constrained graph")	  
+#'      title("Distance constrained graph")
+#' par(opar)	  
 #'		
 #' @export			  
 knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL, 
                        sym = FALSE, long.lat = FALSE, drop.lower = FALSE) 
    {
     if(is.null(k)) k=(dim(x)[1] - 1)
-	  options(warn=-1)
-	  knn <- spdep::knearneigh(sp::coordinates(x), k = k, longlat = long.lat) 
-      knn.nb <- spdep::knn2nb(knn, row.names = row.names, sym = sym)
-	  options(warn=0)
+	  knn <- suppressWarnings( spdep::knearneigh(sp::coordinates(x), k = k, 
+	                           longlat = long.lat) )
+      knn.nb <- suppressWarnings( spdep::knn2nb(knn, row.names = row.names, 
+	                                            sym = sym) )
     if(!is.na(sp::proj4string(x))) { 
 	  prj <- sp::CRS(sp::proj4string(x))
 	} else { 

@@ -1,18 +1,21 @@
 #' @title raster statistics for nodes
-#' @description returns raster value or statistics (based on specified radius) for node 
+#' @description returns raster value or statistics 
+#'             (based on specified radius) for node 
 #'
 #' @param x        sp class SpatialPointsDataFrame object 
 #' @param r        A rasterLayer, rasterStack or rasterBrick object
 #' @param buffer   Buffer distance, radius in projection units
-#' @param stats    Statistics to calculate. If vectorized, can pass a custom statistic function. 
+#' @param stats    Statistics to calculate. If vectorized, can pass a 
+#'                 custom statistic function. 
 #'
 #'	
 #' @return data.frame object of at-node raster values or statistics 
 #'
-#' @note If no buffer is specified, at-node raster values are returned 
+#' @note 
+#' If no buffer is specified, at-node raster values are returned 
 #'  
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(sp)
 #' library(spdep)
 #' library(raster)

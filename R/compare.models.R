@@ -5,12 +5,15 @@
 #'
 #' @return data.frame of competing model statistics
 #'
-#' @details Results include model name, AIX, BIC, log likelihood, RMSE and number of parameters
+#' @details 
+#' Results include model name, AIX, BIC, log likelihood, RMSE and number of parameters
 #'
-#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and Melanie Murphy <melanie.murphy@@uwyo.edu>
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @references
-#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
+#' Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+#'   high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
 #'
 #' @examples  
 #' library(nlme)
