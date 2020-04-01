@@ -45,7 +45,7 @@
 #'   str(dist.graph@@data)
 #' }
 #' 
-#' @export graph.statistics
+#' @export node.statistics
 node.statistics <- function(x, r, buffer = NULL, 
                             stats = c("min", "median", "max") ) {				
   if (!any(class(r)[1] == c("RasterLayer", "RasterStack", "RasterBrick"))) 
