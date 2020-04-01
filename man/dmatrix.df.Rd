@@ -18,12 +18,17 @@ data.frame object representing to and from values
 Coerces distance matrix to a data.frame object
 }
 \note{
-Function results in data.frame object with "X1" (FROM), "X2" (TO) and "distance" columns. The FROM column represents to origin ID, TO represents destination ID and distance is the associated matrix distance. These results can be joined back to the graph object using either the origin or destination ID's.
+Function results in data.frame object with "X1" (FROM), "X2" (TO) and 
+"distance" columns. The FROM column represents to origin ID, TO represents 
+destination ID and distance is the associated matrix distance. These 
+results can be joined back to the graph object using either the origin or 
+destination ID's.
 }
 \examples{
   library(sp)
   pts <- cbind( x=runif(15, 480933, 504250), y=runif(15, 4479433, 4535122))
-    pts <- SpatialPointsDataFrame(pts, data.frame(ID=paste("ob",1:nrow(pts),sep="")))
+    pts <- SpatialPointsDataFrame(pts, 
+             data.frame(ID=paste("ob",1:nrow(pts),sep="")))
   
   # Create distance matrix  
   dm <- spDists(pts, pts)  
@@ -36,5 +41,6 @@ Function results in data.frame object with "X1" (FROM), "X2" (TO) and "distance"
 
 }
 \author{
-Jeffrey S. Evans  <jeffrey_evans@tnc.org> and Melanie Murphy <melanie.murphy@uwyo.edu>
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie Murphy <melanie.murphy@uwyo.edu>
 }

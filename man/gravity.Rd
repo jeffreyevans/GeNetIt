@@ -19,7 +19,8 @@ gravity(y, x, d, group, data, ln = TRUE, constrained = TRUE, ...)
 
 \item{ln}{Natural log transform data (TRUE/FALSE)}
 
-\item{constrained}{Specify constrained model, if FALSE a linear model (lm) is run (TRUE/FALSE)}
+\item{constrained}{Specify constrained model, if FALSE a linear model (lm) 
+is run (TRUE/FALSE)}
 
 \item{...}{Additional argument passed to nlme or lm}
 }
@@ -44,12 +45,13 @@ fit               Model Fitted Values
 Implements Murphy et al., (2010) gravity model
 }
 \details{
-The "group" factor defines the singly constrained direction (from or to) and the grouping 
-structure for the origins. To specify a null (distance only or IBD) model just omit the x argument. 
+The "group" factor defines the singly constrained direction (from or to) and the 
+grouping structure for the origins. To specify a null (distance only or IBD) 
+model just omit the x argument. 
 
-By default constrained models are fit by maximizing the restricted log-likelihood (REML), 
-for maximum likelihood use the type="ML" argument which is passed to the lme function. If ln=TRUE 
-the input data will be log transformed
+By default constrained models are fit by maximizing the restricted log-likelihood 
+(REML), for maximum likelihood use the type="ML" argument which is passed to the 
+lme function. If ln=TRUE the input data will be log transformed
 }
 \note{
 Depends: nlme, lattice
@@ -77,16 +79,17 @@ x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
   cat("log likelihood for parameter set:", "(",x1,")", "=", ll, "\n")				 
  }
 
-
 # Distance only (IBD) model
 gravity(y = "DPS", d = "DISTANCE", group = "FROM_SITE", 
         data = ralu.model, ln = FALSE)
 
 }
 \references{
-Murphy, M. A. & J.S. Evans. (in prep). GenNetIt: graph theoretical gravity modeling for landscape genetics
+Murphy, M. A. & J.S. Evans. (in prep). GenNetIt: graph theoretical gravity modeling 
+  for landscape genetics
 
-Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
+Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+  high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
 }
 \seealso{
 \code{\link[nlme]{groupedData}} for how grouping works in constrained model
@@ -96,5 +99,6 @@ Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics o
 \code{\link[stats]{lm}} for linear model ... options
 }
 \author{
-Jeffrey S. Evans  <jeffrey_evans@tnc.org> and Melanie Murphy <melanie.murphy@uwyo.edu>
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie Murphy <melanie.murphy@uwyo.edu>
 }

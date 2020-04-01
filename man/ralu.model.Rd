@@ -4,7 +4,8 @@
 \name{ralu.model}
 \alias{ralu.model}
 \title{Columbia spotted frog (Rana luteiventris) data for specifying gravity model. Note, the data.frame is already log transformed.}
-\format{A data.frame with 190 rows (sites) and 19 columns (covariates):
+\format{
+A data.frame with 190 rows (sites) and 19 columns (covariates):
 \describe{
 \item{ARMI_ID}{Unique ID}
 \item{FROM_SITE}{Unique from site ID}
@@ -25,7 +26,8 @@
 \item{rsp}{Relative Slope Position}
 \item{ridge}{Percent Ridge Line}
 \item{hab_ratio}{Ratio of suitable dispersal habitat}
-}}
+}
+}
 \description{
 Subset of data used in Murphy et al., (2010)
 }

@@ -4,7 +4,8 @@
 \name{rasters}
 \alias{rasters}
 \title{Subset of raster data for Columbia spotted frog (Rana luteiventris)}
-\format{A raster RasterStack:
+\format{
+A raster RasterStack:
 \describe{
 \item{rows}{426}
 \item{columns}{358}
@@ -16,7 +17,8 @@
 \item{gsp}{Growing Season Precipitation}
 \item{hil}{Heat Load Index}
 \item{nlcd}{USGS Landcover}
-}}
+}
+}
 \description{
 Subset of data used in Murphy et al., (2010)
 }

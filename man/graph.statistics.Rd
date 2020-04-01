@@ -27,7 +27,7 @@ Samples rasters for each edge and calculates specified statistics
 ...
 }
 \examples{
-\dontrun{
+\donttest{
  library(sp)
  library(spdep)
  library(raster)

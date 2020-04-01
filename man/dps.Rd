@@ -4,7 +4,9 @@
 \name{dps}
 \alias{dps}
 \title{dps genetic distance matrix for Columbia spotted frog (Rana luteiventris)}
-\format{A 29 x 29 genetic distance matrix:}
+\format{
+A 29 x 29 genetic distance matrix:
+}
 \description{
 Subset of data used in Murphy et al., (2010)
 }

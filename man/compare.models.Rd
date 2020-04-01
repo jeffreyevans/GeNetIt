@@ -38,8 +38,10 @@ compare.models(null, gm_h1, gm_h2, gm_h3)
 
 }
 \references{
-Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
+Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+  high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
 }
 \author{
-Jeffrey S. Evans  <jeffrey_evans@tnc.org> and Melanie Murphy <melanie.murphy@uwyo.edu>
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie Murphy <melanie.murphy@uwyo.edu>
 }

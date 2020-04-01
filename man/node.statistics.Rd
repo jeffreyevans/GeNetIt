@@ -13,19 +13,21 @@ node.statistics(x, r, buffer = NULL, stats = c("min", "median", "max"))
 
 \item{buffer}{Buffer distance, radius in projection units}
 
-\item{stats}{Statistics to calculate. If vectorized, can pass a custom statistic function.}
+\item{stats}{Statistics to calculate. If vectorized, can pass a 
+custom statistic function.}
 }
 \value{
 data.frame object of at-node raster values or statistics
 }
 \description{
-returns raster value or statistics (based on specified radius) for node
+returns raster value or statistics 
+            (based on specified radius) for node
 }
 \note{
 If no buffer is specified, at-node raster values are returned
 }
 \examples{
-\dontrun{
+\donttest{
 library(sp)
 library(spdep)
 library(raster)

@@ -9,7 +9,8 @@ gravity.es(x, actual.n = FALSE, alpha = 0.95)
 \arguments{
 \item{x}{gravity model object}
 
-\item{actual.n}{(FALSE/TRUE) Use actual N or degrees of freedom in calculating Confidence Interval}
+\item{actual.n}{(FALSE/TRUE) Use actual N or degrees of freedom 
+in calculating Confidence Interval}
 
 \item{alpha}{confidence interval}
 }
@@ -35,10 +36,13 @@ gravity.es(gm_h1)
 
 }
 \references{
-Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
+Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of 
+  high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
 
-Cohen, J. (1988) Statistical power for the behavioral sciences (2nd ed.). Hillsdale, NJ: Erlbaum
+Cohen, J. (1988) Statistical power for the behavioral sciences (2nd ed.). 
+  Hillsdale, NJ: Erlbaum
 }
 \author{
-Jeffrey S. Evans  <jeffrey_evans@tnc.org> and Melanie Murphy <melanie.murphy@uwyo.edu>
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie Murphy <melanie.murphy@uwyo.edu>
 }

@@ -19,23 +19,27 @@ knn.graph(
 
 \item{row.names}{Unique row.names assigned to results}
 
-\item{k}{K nearest neighbors, defaults to saturated [n(x) - 1]}
+\item{k}{K nearest neighbors, defaults to saturated \link{n(x) - 1}}
 
 \item{max.dist}{Maximum length of an edge (used for distance constraint)}
 
 \item{sym}{Create symmetrical graph (FALSE/TRUE)}
 
-\item{long.lat}{(FALSE/TRUE) Coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers}
+\item{long.lat}{(FALSE/TRUE) Coordinates are longitude-latitude decimal degrees,
+in which case distances are measured in kilometers}
 
 \item{drop.lower}{(FALSE/TRUE) Drop lower triangle of matrix (duplicate edges)}
 }
 \value{
 SpatialLinesDataFrame object with:
-   i        Name of column in x with FROM (origin) index
-   j        Name of column in x with TO (destination) index
-   from_ID     Name of column in x with FROM (origin) region ID
-   to_ID     Name of column in x with TO (destination) region ID
-   length   Length of each edge (line) in projection units or kilometers if long.lat = TRUE
+\itemize{
+\item i        Name of column in x with FROM (origin) index
+\item j        Name of column in x with TO (destination) index
+\item from_ID  Name of column in x with FROM (origin) region ID
+\item to_ID    Name of column in x with TO (destination) region ID
+\item length   Length of each edge (line) in projection units or kilometers
+if long.lat = TRUE
+}
 }
 \description{
 Creates a kNN or saturated graph SpatialLinesDataFrame object
@@ -52,8 +56,10 @@ Creates a kNN or saturated graph SpatialLinesDataFrame object
    head(sat.graph@data)
  
  # Distanced constrained spatial graph
- dist.graph <- knn.graph(ralu.site, row.names=ralu.site@data[,"SiteName"], max.dist = 5000)
+ dist.graph <- knn.graph(ralu.site, row.names=ralu.site@data[,"SiteName"], 
+                         max.dist = 5000)
 
+opar <- par(no.readonly=TRUE)
  par(mfrow=c(1,2))	
 plot(sat.graph, col="grey")
   points(ralu.site, col="red", pch=20, cex=1.5)
@@ -62,13 +68,18 @@ plot(sat.graph, col="grey")
 plot(dist.graph, col="grey")
   points(ralu.site, col="red", pch=20, cex=1.5)
      box()
-     title("Distance constrained graph")	  
+     title("Distance constrained graph")
+par(opar)	  
 	
 }
 \references{
-Murphy, M. A. & J.S. Evans. (in prep). "GenNetIt: gravity analysis in R for landscape genetics" 
-Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
+Murphy, M. A. & J.S. Evans. (in prep). "GenNetIt: gravity analysis in R for landscape
+genetics"
+
+Murphy M.A., R. Dezzani, D.S. Pilliod & A.S. Storfer (2010) Landscape genetics of
+high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
 }
 \author{
-Jeffrey S. Evans  <jeffrey_evans@tnc.org> and Melanie Murphy <melanie.murphy@uwyo.edu>
+Jeffrey S. Evans  \href{mailto:jeffrey_evans@tnc.org}{jeffrey_evans@tnc.org} and
+Melanie Murphy \href{mailto:melanie.murphy@uwyo.edu}{melanie.murphy@uwyo.edu}
 }

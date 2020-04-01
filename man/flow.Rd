@@ -11,9 +11,11 @@ flow(x, standardize = FALSE, rm.na = FALSE, diag.value = NA)
 
 \item{standardize}{(FALSE/TRUE) Row-standardize the data before calculating flow}
 
-\item{rm.na}{(TRUE/FALSE) Should NA's be removed, if FALSE (default) the will be retained in the results}
+\item{rm.na}{(TRUE/FALSE) Should NA's be removed, if FALSE (default) the 
+will be retained in the results}
 
-\item{diag.value}{If x is a matrix, what diagonal matrix values should be used (default is NA)}
+\item{diag.value}{If x is a matrix, what diagonal matrix values should be 
+used (default is NA)}
 }
 \value{
 A vector or matrix representing flow values
@@ -38,5 +40,6 @@ flow(dm)
 
 }
 \author{
-Jeffrey S. Evans  <jeffrey_evans@tnc.org> and Melanie Murphy <melanie.murphy@uwyo.edu>
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie Murphy <melanie.murphy@uwyo.edu>
 }
