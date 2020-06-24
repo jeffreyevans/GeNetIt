@@ -19,7 +19,6 @@ Imports:
     sp,
     spdep,
     raster,
-	rgeos,
 	sf
 Maintainer: Jeffrey S. Evans <jeffrey_evans@tnc.org>
 License: GPL-3

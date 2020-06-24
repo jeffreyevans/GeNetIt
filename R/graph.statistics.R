@@ -1,5 +1,5 @@
-#' @title Point sample and statistics for edges (lines)
-#' @description Samples rasters for each edge and calculates specified statistics
+#' @title Statistics for edges (lines)
+#' @description Extracts raster values for each edge and calculates specified statistics
 #'
 #' @param x          sp SpatialLinesDataFrame or sf LINE object 
 #' @param r          A rasterLayer, rasterStack or rasterBrick object
@@ -10,7 +10,10 @@
 #'	
 #' @return data.frame object of statistics 
 #'
-#' @note ...
+#' @note 
+#' If the buffer argument is specified that, raster values within the specified 
+#' buffer radius are extracted and included in the derived statistic(s). Else-wise,
+#' the statistics are derived from raster values that directly intersect each edge.  
 #'  
 #' @examples
 #' \donttest{
@@ -49,7 +52,7 @@
 #'  system.time( {		
 #'   stats <- graph.statistics(dist.graph, r = xvars[[-6]],  
 #'               stats = c("min", "median", "max", "var", "skew"),
-#' 			  buffer = 500) 
+#' 			      buffer = 500) 
 #'  } )
 #' 
 #'  dist.graph@@data <- data.frame(dist.graph@@data, stats, nstats)
