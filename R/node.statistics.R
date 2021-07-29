@@ -41,10 +41,6 @@
 #'              stats = c("min", "median", "max", "var", "skew")) 
 #' } ) 
 #'
-#' dist.graph@@data <- data.frame(dist.graph@@data, stats, nstats)
-#'   str(dist.graph@@data)
-#' }
-#' 
 #' @export node.statistics
 node.statistics <- function(x, r, buffer = NULL, 
                             stats = c("min", "median", "max") ) {				

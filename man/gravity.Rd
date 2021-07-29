@@ -40,6 +40,8 @@ y                 Vector of dependent variable
 groups            Ordered factor vector of grouping variable
 
 fit               Model Fitted Values
+
+constrained       TRUE/FALSE indicating if model is constrained
 }
 \description{
 Implements Murphy et al., (2010) gravity model
@@ -75,7 +77,7 @@ x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
  for(i in x[-1]) {
    x1 = c(x[1], x[-which(x \%in\% i)])  
    ll <- gravity(y = "DPS", x = x1, d = "DISTANCE", group = "FROM_SITE", 
-                data = ralu.model, ln = FALSE)$log.likelihood
+                 data = ralu.model, ln = FALSE)$log.likelihood
   cat("log likelihood for parameter set:", "(",x1,")", "=", ll, "\n")				 
  }
 

@@ -19,7 +19,7 @@ knn.graph(
 
 \item{row.names}{Unique row.names assigned to results}
 
-\item{k}{K nearest neighbors, defaults to saturated \link{n(x) - 1}}
+\item{k}{K nearest neighbors, defaults to saturated (n(x) - 1)}
 
 \item{max.dist}{Maximum length of an edge (used for distance constraint)}
 
@@ -53,7 +53,7 @@ Creates a kNN or saturated graph SpatialLinesDataFrame object
 
  # Saturated spatial graph
  sat.graph <- knn.graph(ralu.site, row.names=ralu.site@data[,"SiteName"])
-   head(sat.graph@data)
+   head(sat.graph)
  
  # Distanced constrained spatial graph
  dist.graph <- knn.graph(ralu.site, row.names=ralu.site@data[,"SiteName"], 

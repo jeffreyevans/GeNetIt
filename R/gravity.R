@@ -19,6 +19,7 @@
 #' @return y                 Vector of dependent variable
 #' @return groups            Ordered factor vector of grouping variable
 #' @return fit               Model Fitted Values
+#' @return constrained       TRUE/FALSE indicating if model is constrained
 #'
 #' @details 
 #' The "group" factor defines the singly constrained direction (from or to) and the 
@@ -60,7 +61,7 @@
 #'  for(i in x[-1]) {
 #'    x1 = c(x[1], x[-which(x %in% i)])  
 #'    ll <- gravity(y = "DPS", x = x1, d = "DISTANCE", group = "FROM_SITE", 
-#'                 data = ralu.model, ln = FALSE)$log.likelihood
+#'                  data = ralu.model, ln = FALSE)$log.likelihood
 #'	  cat("log likelihood for parameter set:", "(",x1,")", "=", ll, "\n")				 
 #'  }
 #'
@@ -75,36 +76,47 @@
 #' @import nlme
 #' @exportClass gravity
 #' @export
-gravity <- function(y, x, d, group, data, ln = TRUE, constrained = TRUE, ...) {
-  if( missing(d) ) stop("Distance must be included")
-    if( missing(x)) { x = d }
-      x <- unique(c(x, d))
-  gdata <- data[,c(group, y, x)]
-  gdata <- nlme::groupedData( stats::as.formula(paste(paste(y, 1, sep=" ~ "), 
-                              group, sep=" | ")), data = gdata) 
-	  if(ln == TRUE) { 
-	   gdata[,x] <- log(abs(gdata[,x]))
-	   gdata[,y] <- log(abs(gdata[,y]))
-       gdata[gdata == -Inf] <- 0 
-       gdata[gdata == Inf] <- 0  		
-	  } 		   		
-    fmla <- stats::as.formula(paste(paste(y, "~", sep=""), paste(x, collapse= "+")))       	
-      if (constrained == FALSE) { 
-        print("Running unconstrained gravity model, defaulting to OLS. Please check assumptions")
-       gvlmm <- stats::lm(fmla, data = gdata, ...)
-	     gvaic <- stats::AIC(gvlmm)
-    gm <- list(formula=fmla, gravity=gvlmm, AIC=gvaic, x=gdata[,x], y=gdata[,y],
-	           fit = stats::fitted(gvlmm) ) 		   
-       } else {	   
-	if(!"groupedData" %in% class(gdata)) 
-	  stop ("Data must be a groupedData object for singly-constrained gravity model")
-	print("Running singly-constrained gravity model")
-	    gvlmm <- nlme::lme(fmla, stats::as.formula(paste("random = ~1", group, sep=" | ")), 
-		                   data = gdata, ...)
-        gvaic <- stats::AIC(gvlmm)
-        gm <- list(formula = fmla, gravity = gvlmm, AIC = gvaic, log.likelihood = gvlmm$logLik, 
-		           x = gdata[,x], y = gdata[,y], groups = gdata[,group], fit = stats::fitted(gvlmm) )   	  
+gravity <- function (y, x, d, group, data, ln = TRUE, constrained = TRUE, ...) 
+{
+    if (missing(d)) 
+        stop("Distance must be included")
+    if (missing(x)) {
+        x = d
     }
-	class(gm) <- "gravity"
-  return(gm)
-}	
+    x <- unique(c(x, d))
+    gdata <- data[, c(group, y, x)]
+    gdata <- nlme::groupedData(stats::as.formula(paste(paste(y, 
+                               1, sep = " ~ "), group, sep = " | ")), 
+							   data = gdata)
+    if (ln == TRUE) {
+        gdata[, x] <- log(abs(gdata[, x]))
+        gdata[, y] <- log(abs(gdata[, y]))
+        gdata[gdata == -Inf] <- 0
+        gdata[gdata == Inf] <- 0
+    }
+    fmla <- stats::as.formula(paste(paste(y, "~", sep = ""), 
+                              paste(x, collapse = "+")))
+    if (constrained == FALSE) {
+        print("Running unconstrained gravity model, defaulting to OLS. Please check assumptions")
+        gvlmm <- stats::lm(fmla, data = gdata, ...)
+        gvaic <- stats::AIC(gvlmm)
+        gm <- list(formula = fmla, gravity = gvlmm, AIC = gvaic, 
+                   x = gdata[, x], y = gdata[, y], fit = stats::fitted(gvlmm),
+				   constrained = constrained)
+    }
+    else {
+        if (!"groupedData" %in% class(gdata)) 
+            stop("Data must be a groupedData object for singly-constrained gravity model")
+        print("Running singly-constrained gravity model")
+		gvlmm <- nlme::lme(fmla, stats::formula(gdata), data = gdata, ...)
+        #gvlmm <- nlme::lme(fmla, stats::as.formula(paste("random = ~1", 
+        #                   group, sep = " | ")), data = gdata, ...)
+        gvaic <- stats::AIC(gvlmm)
+        gm <- list(formula = fmla, gravity = gvlmm, AIC = gvaic, 
+            log.likelihood = gvlmm$logLik, x = gdata[, x], y = gdata[, 
+                y], groups = gdata[, group], fit = stats::fitted(gvlmm),
+				constrained = constrained)
+    }
+    class(gm) <- "gravity"
+    return(gm)
+}

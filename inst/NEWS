@@ -26,3 +26,8 @@ GeNetIt_0.1-4
 =================
 
 * Due to depreciation, changed velox dependency to exactextractr for raster extraction
+
+* Fixed bug in gravity function due to change in nlme formula interface 
+
+* Fixed bug in gravity.es that resulted in an error with an unconstrained gravity model
+  (thanks to Yoav Ram for identifying bug and suggesting a fix)

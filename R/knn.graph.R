@@ -3,7 +3,7 @@
 #'
 #' @param x              sp SpatialPointsDataFrame object
 #' @param row.names      Unique row.names assigned to results  
-#' @param k              K nearest neighbors, defaults to saturated [n(x) - 1]
+#' @param k              K nearest neighbors, defaults to saturated (n(x) - 1)
 #' @param max.dist       Maximum length of an edge (used for distance constraint)
 #' @param sym            Create symmetrical graph (FALSE/TRUE)
 #' @param drop.lower     (FALSE/TRUE) Drop lower triangle of matrix (duplicate edges) 
@@ -37,7 +37,7 @@
 #'
 #'  # Saturated spatial graph
 #'  sat.graph <- knn.graph(ralu.site, row.names=ralu.site@@data[,"SiteName"])
-#'    head(sat.graph@data)
+#'    head(sat.graph)
 #'  
 #'  # Distanced constrained spatial graph
 #'  dist.graph <- knn.graph(ralu.site, row.names=ralu.site@@data[,"SiteName"], 

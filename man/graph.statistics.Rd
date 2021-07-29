@@ -2,7 +2,7 @@
 % Please edit documentation in R/graph.statistics.R
 \name{graph.statistics}
 \alias{graph.statistics}
-\title{Point sample and statistics for edges (lines)}
+\title{Statistics for edges (lines)}
 \usage{
 graph.statistics(x, r, stats = c("min", "mean", "max"), buffer = NULL)
 }
@@ -21,10 +21,12 @@ based on edge buffer distance}
 data.frame object of statistics
 }
 \description{
-Samples rasters for each edge and calculates specified statistics
+Extracts raster values for each edge and calculates specified statistics
 }
 \note{
-...
+If the buffer argument is specified that, raster values within the specified 
+buffer radius are extracted and included in the derived statistic(s). Else-wise,
+the statistics are derived from raster values that directly intersect each edge.
 }
 \examples{
 \donttest{
@@ -63,7 +65,7 @@ p <- function(x) { length(x[x < 52]) / length(x) }
  system.time( {		
   stats <- graph.statistics(dist.graph, r = xvars[[-6]],  
               stats = c("min", "median", "max", "var", "skew"),
-			  buffer = 500) 
+			      buffer = 500) 
  } )
 
  dist.graph@data <- data.frame(dist.graph@data, stats, nstats)
