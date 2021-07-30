@@ -40,6 +40,7 @@
 #'  stats <- node.statistics(ralu.site, r = xvars[[-6]], buffer = 1000,  
 #'              stats = c("min", "median", "max", "var", "skew")) 
 #' } ) 
+#' }
 #'
 #' @export node.statistics
 node.statistics <- function(x, r, buffer = NULL, 

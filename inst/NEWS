@@ -31,3 +31,6 @@ GeNetIt_0.1-4
 
 * Fixed bug in gravity.es that resulted in an error with an unconstrained gravity model
   (thanks to Yoav Ram for identifying bug and suggesting a fix)
+  
+* Fixed bug in predict function and now allows population or individual level predictions 
+  
