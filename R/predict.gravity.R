@@ -105,7 +105,7 @@ predict.gravity <- function (object, newdata, groups = NULL,
 	  exp(y-hat) ~ y-hat regression with no intercept,
 	  does not assume normally distributed errors")	  
 	    p1 <- exp(object$gravity$fitted[,1])
-		  y <- stats::coef(lm(as.numeric(object$gravity$fitted[,1])-0 ~ p1))[2]
+		  y <- stats::coef(lm(object$y-0 ~ p1))[2]
 		p <- y * exp(p)	
 	  }
 	}
