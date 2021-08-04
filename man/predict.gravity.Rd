@@ -4,7 +4,13 @@
 \alias{predict.gravity}
 \title{Predict gravity model}
 \usage{
-\method{predict}{gravity}(object, newdata, groups = NULL, ...)
+\method{predict}{gravity}(
+  object,
+  newdata,
+  groups = NULL,
+  back.transform = c("none", "simple", "Miller", "Naihua"),
+  ...
+)
 }
 \arguments{
 \item{object}{Object of class gravity}
@@ -16,13 +22,23 @@ be a data.frame or nffGroupedData}
 must match levels used in model, otherwise leave it
 null and do not convert to groupedData}
 
+\item{back.transform}{Method to back transform data, default is none and 
+log predictions will be returned.}
+
 \item{...}{Arguments passed to predict.lme or predict.lm}
 }
 \value{
-Model predictions
+Vector of model predictions
 }
 \description{
 predict method for class "gravity"
+}
+\details{
+The simple back-transform method uses the form exp(y-hat)0.5*variance whereas
+Miller uses exp(sigma)*05 as the multiplicative bias factor. Naihua regresses 
+y-hat~exp(y-hat) with no intercept and uses the resulting coefficient 
+as the multiplicative bias factor. The default to output the log scaled 
+predictions.
 }
 \examples{
 library(nlme)
@@ -44,6 +60,12 @@ sidx <- sample(1:nrow(ralu.model), 100)
 ( p <- predict(gm, test[,c(x, "DISTANCE")]) )
   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx]))
 
+# WIth model sigma-based back transformation
+( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "simple") )
+( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Miller") )
+( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Naihua") )
+
+ 
 # Using grouped data
 test <- nlme::groupedData(stats::as.formula(paste(paste("DPS", 1, sep = " ~ "), 
           "FROM_SITE", sep = " | ")), 
@@ -59,4 +81,11 @@ test <- nlme::groupedData(stats::as.formula(paste(paste("DPS", 1, sep = " ~ "),
 ( p <- predict(gm, test[,c(x, "DISTANCE")]) )
   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx])) 
 
+}
+\references{
+Miller, D.M. (1984) Reducing Transformation Bias in Curve Fitting
+  The American Statistician. 38(2):124-126
+
+Naihua, D. (1983) Smearing Estimate: A Nonparametric Retransformation Method 
+  Journal of the American Statistical Association, 78(383):605–610.
 }

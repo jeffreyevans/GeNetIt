@@ -1,18 +1,31 @@
 #' @title Predict gravity model
 #' @description predict method for class "gravity"
 #'
-#' @param object    Object of class gravity
-#' @param newdata   New data used for obtaining the predictions, can
-#'                  be a data.frame or nffGroupedData
-#' @param groups    Grouping factor acting as random effect. If used,
-#'                  must match levels used in model, otherwise leave it
-#'                  null and do not convert to groupedData    
-#' @param ...       Arguments passed to predict.lme or predict.lm
+#' @param object            Object of class gravity
+#' @param newdata           New data used for obtaining the predictions, can
+#'                          be a data.frame or nffGroupedData
+#' @param groups            Grouping factor acting as random effect. If used,
+#'                          must match levels used in model, otherwise leave it
+#'                          null and do not convert to groupedData  
+#' @param back.transform    Method to back transform data, default is none and 
+#'                          log predictions will be returned. 
+#'  
+#' @param ...               Arguments passed to predict.lme or predict.lm
 #'
-#' @return          Model predictions
+#' @return Vector of model predictions
+#'
+#' @details 
+#' The simple back-transform method uses the form exp(y-hat)0.5*variance whereas
+#' Miller uses exp(sigma)*05 as the multiplicative bias factor. Naihua regresses 
+#' y-hat~exp(y-hat) with no intercept and uses the resulting coefficient 
+#' as the multiplicative bias factor. The default to output the log scaled 
+#' predictions.   
 #'
 #' @references
-#' D. Naihua (1983) Smearing Estimate: A Nonparametric Retransformation Method 
+#' Miller, D.M. (1984) Reducing Transformation Bias in Curve Fitting
+#'   The American Statistician. 38(2):124-126
+#' @references
+#' Naihua, D. (1983) Smearing Estimate: A Nonparametric Retransformation Method 
 #'   Journal of the American Statistical Association, 78(383):605–610. 
 #' 
 #' @examples 
@@ -36,8 +49,10 @@
 #'   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx]))
 #' 
 #' # WIth model sigma-based back transformation
-#' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = TRUE) )
-#'   rmse(p, back.transform(ralu.model[,"DPS"][-sidx]))
+#' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "simple") )
+#' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Miller") )
+#' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Naihua") )
+#'
 #'  
 #' # Using grouped data
 #' test <- nlme::groupedData(stats::as.formula(paste(paste("DPS", 1, sep = " ~ "), 
@@ -56,7 +71,8 @@
 #'
 #' @method predict gravity
 #' @export
-predict.gravity <- function (object, newdata, groups = NULL, back.transform = FALSE, ...) {
+predict.gravity <- function (object, newdata, groups = NULL, 
+                             back.transform = c("none", "simple", "Miller", "Naihua"), ...) {
   if(class(object$gravity) == "lme") { 					   
   m <- do.call("lme.formula", list(fixed = object$fixed.formula,
             data = object$gravity$data, 
@@ -74,10 +90,24 @@ predict.gravity <- function (object, newdata, groups = NULL, back.transform = FA
   } else if(class(object$gravity) == "lm") {
     p <- stats::predict(object$gravity, newdata, ...)
   } 
-	if(back.transform) {
-	  message("Back-transforming, assumes normally distributed errors")
-	  p <- exp((summary(object$gravity)$sigma)*0.5) * exp(p + 0.5 * stats::var(p))	  
+	if(back.transform != "none") {	  
+	  if(back.transform == "simple") {
+	    message("Back-transforming exp(y-hat)*0.5*variance(y-hat), 
+		  assumes normally distributed errors")
+	    p <- exp(p + 0.5 * stats::var(p))    
+	  } else if(back.transform == "Miller") {
+	    message("Miller back-transformation using: 
+		  exp(sigma)*0.5*exp(y-hat)0.5*variance(y-hat), 
+		  assumes normally distributed errors")	  
+        p <- exp((summary(object$gravity)$sigma)*0.5) * exp(p + 0.5 * stats::var(p))	
+      } else if(back.transform == "Naihua") {
+    message("Naihua back-transformation using: 
+	  exp(y-hat) ~ y-hat regression with no intercept,
+	  does not assume normally distributed errors")	  
+	    p1 <- exp(object$gravity$fitted[,1])
+		  y <- stats::coef(lm(as.numeric(object$gravity$fitted[,1])-0 ~ p1))[2]
+		p <- y * exp(p)	
+	  }
 	}
-  
   return(p)
 }
