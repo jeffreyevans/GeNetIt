@@ -36,7 +36,7 @@ predict method for class "gravity"
 \details{
 The simple back-transform method uses the form exp(y-hat)0.5*variance whereas
 Miller uses exp(sigma)*05 as the multiplicative bias factor. Naihua regresses 
-y-hat~exp(y-hat) with no intercept and uses the resulting coefficient 
+y~exp(y-hat) with no intercept and uses the resulting coefficient 
 as the multiplicative bias factor. The default to output the log scaled 
 predictions.
 }
