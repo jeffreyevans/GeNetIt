@@ -11,6 +11,10 @@
 #'
 #' @return          Model predictions
 #'
+#' @references
+#' D. Naihua (1983) Smearing Estimate: A Nonparametric Retransformation Method 
+#'   Journal of the American Statistical Association, 78(383):605–610. 
+#' 
 #' @examples 
 #' library(nlme)
 #' data(ralu.model)
@@ -31,6 +35,10 @@
 #' ( p <- predict(gm, test[,c(x, "DISTANCE")]) )
 #'   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx]))
 #' 
+#' # WIth model sigma-based back transformation
+#' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = TRUE) )
+#'   rmse(p, back.transform(ralu.model[,"DPS"][-sidx]))
+#'  
 #' # Using grouped data
 #' test <- nlme::groupedData(stats::as.formula(paste(paste("DPS", 1, sep = " ~ "), 
 #'           "FROM_SITE", sep = " | ")), 
@@ -38,7 +46,7 @@
 #' 
 #' ( p <- predict(gm, test, groups = "FROM_SITE") )
 #'   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx]))
-#' 
+#'
 #' # Specify unconstrained gravity model (generally, not recommended)	
 #' ( gm <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
 #'                 data = train, ln = FALSE, constrained=TRUE) )
@@ -48,11 +56,11 @@
 #'
 #' @method predict gravity
 #' @export
-predict.gravity <- function (object, newdata, groups = NULL, ...) {
+predict.gravity <- function (object, newdata, groups = NULL, back.transform = FALSE, ...) {
   if(class(object$gravity) == "lme") { 					   
   m <- do.call("lme.formula", list(fixed = object$fixed.formula,
             data = object$gravity$data, 
-            random = object$random.formula))					   
+            random = object$random.formula))
     if(!is.null(groups)) {
       if(class(newdata)[1] != "nffGroupedData")
         stop("newdata must be grouped using nlme::groupedData")
@@ -65,6 +73,11 @@ predict.gravity <- function (object, newdata, groups = NULL, ...) {
 	  } 
   } else if(class(object$gravity) == "lm") {
     p <- stats::predict(object$gravity, newdata, ...)
-  }  
+  } 
+	if(back.transform) {
+	  message("Back-transforming, assumes normally distributed errors")
+	  p <- exp((summary(object$gravity)$sigma)*0.5) * exp(p + 0.5 * stats::var(p))	  
+	}
+  
   return(p)
 }
