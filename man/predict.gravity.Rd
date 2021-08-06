@@ -34,11 +34,17 @@ Vector of model predictions
 predict method for class "gravity"
 }
 \details{
-The simple back-transform method uses the form exp(y-hat)0.5*variance whereas
-Miller uses exp(sigma)*05 as the multiplicative bias factor. Naihua regresses 
-y~exp(y-hat) with no intercept and uses the resulting coefficient 
-as the multiplicative bias factor. The default to output the log scaled 
-predictions.
+Please note that the entire gravity equation is log transformed so, 
+your parameter space is on a log scale, not just y. This means that for 
+a meaningful prediction the "newdata" also needs to be on a log scale.
+  
+For the back.transform argument, the simple back-transform method uses the 
+form exp(y-hat)0.5*variance whereas Miller uses exp(sigma)*05 as the 
+multiplicative bias factor. Naihua regresses y~exp(y-hat) with no intercept 
+and uses the resulting coefficient as the multiplicative bias factor. The
+Naihua method is intended for results with non-normal errors. You can check
+the functional form by simply plotting y (non-transformed) against the fit.    
+The default is to output the log scaled predictions.
 }
 \examples{
 library(nlme)

@@ -15,11 +15,17 @@
 #' @return Vector of model predictions
 #'
 #' @details 
-#' The simple back-transform method uses the form exp(y-hat)0.5*variance whereas
-#' Miller uses exp(sigma)*05 as the multiplicative bias factor. Naihua regresses 
-#' y~exp(y-hat) with no intercept and uses the resulting coefficient 
-#' as the multiplicative bias factor. The default to output the log scaled 
-#' predictions.   
+#' Please note that the entire gravity equation is log transformed so, 
+#' your parameter space is on a log scale, not just y. This means that for 
+#' a meaningful prediction the "newdata" also needs to be on a log scale.
+#'   
+#' For the back.transform argument, the simple back-transform method uses the 
+#' form exp(y-hat)0.5*variance whereas Miller uses exp(sigma)*05 as the 
+#' multiplicative bias factor. Naihua regresses y~exp(y-hat) with no intercept 
+#' and uses the resulting coefficient as the multiplicative bias factor. The
+#' Naihua method is intended for results with non-normal errors. You can check
+#' the functional form by simply plotting y (non-transformed) against the fit.    
+#' The default is to output the log scaled predictions. 
 #'
 #' @references
 #' Miller, D.M. (1984) Reducing Transformation Bias in Curve Fitting
@@ -102,7 +108,7 @@ predict.gravity <- function (object, newdata, groups = NULL,
         p <- exp((summary(object$gravity)$sigma)*0.5) * exp(p + 0.5 * stats::var(p))	
       } else if(back.transform == "Naihua") {
     message("Naihua back-transformation using: 
-	  exp(y-hat) ~ y-hat regression with no intercept,
+	  y ~ exp(y-hat) regression with no intercept,
 	  does not assume normally distributed errors")	  
 	    p1 <- exp(object$gravity$fitted[,1])
 		  y <- stats::coef(lm(object$y-0 ~ p1))[2]
