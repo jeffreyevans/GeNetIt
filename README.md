@@ -10,7 +10,7 @@ The model framework is applicable for other types of spatial flow questions. Inc
 
 # Available functions in GeNetIt 0.1-4 are:
 
-| `spatialEco` Function        | Description                                                                             |
+| `GeNetIt` Function           | Description                                                                             |
 |:-----------------------------|:----------------------------------------------------------------------------------------|
 | `area.graph.statistics`      | Depreciated, please use graph.statistics with buffer argument
 | `build.node.data`            | Build node data 
