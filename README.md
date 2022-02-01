@@ -14,7 +14,6 @@ gravity models following Murphy et al., (2010).
 
 | `GeNetIt` Function           | Description                                                                             |
 |:-----------------------------|:----------------------------------------------------------------------------------------|
-| `area.graph.statistics`      | Depreciated, please use graph.statistics with buffer argument
 | `build.node.data`            | Build node data 
 | `compare.models`             | Compare competing hypothesis (models)
 | `dmatrix.df`                 | Distance matrix to data.frame
@@ -32,6 +31,7 @@ gravity models following Murphy et al., (2010).
 | `ralu.site`                  | Subset of site-level spatial point data for Columbia spotted frog (Rana luteiventris)
 | `rasters`                    | Subset of raster data for Columbia spotted frog (Rana luteiventris)
 | `summary.gravity`            | summary generic for gravity model objects
+| `area.graph.statistics`      | Depreciated, please use graph.statistics with buffer argument
 		
 **Bugs**: Users are encouraged to report bugs here. Go to [issues](https://github.com/jeffreyevans/GeNetIt/issues) in the menu above, and press new issue to start a new bug report, documentation correction or feature request. You can direct questions to <jeffrey_evans@tnc.org>.
 
