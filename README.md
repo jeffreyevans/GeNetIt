@@ -1,4 +1,4 @@
-# GeNetIt (CRAN 0.1-3, development 0.1-4)
+# GeNetIt (CRAN 0.1-3, development 0.1-4) <img src="man/figures/genetit_logo.jpg" align="right" alt="" width="160" />
 
 [![CRAN
 status](http://www.r-pkg.org/badges/version/GeNetIt)](https://cran.r-project.org/package=GeNetIt)
@@ -10,43 +10,26 @@ The model framework is applicable for other types of spatial flow questions. Inc
 
 # Available functions in GeNetIt 0.1-4 are:
 
-
-		area.graph.statistics - Depreciated, please use graph.statistics with buffer argument
-
-		build.node.data - Build node data 
-		
-		compare.models - Compare competing hypothesis (models)
-		
-		dmatrix.df - Distance matrix to data.frame
-		
-		dps - dps genetic distance matrix for Columbia spotted frog (Rana luteiventris)
-		
-		flow - Convert distance matrix to flow (1-d)
-		 
-		graph.statistics - Raster statistics for edges (lines)
-
-		gravity.es - Effect size for a gravity model
-		
-		gravity - Gravity model
-		
-		knn.graph - Saturated or K Nearest Neighbor Graph
-		
-		node.statistics - Raster statistics for nodes (points)
-		
-		plot.gravity - Generic plot function for a gravity model object
-		
-		predict.gravity - Predict gravity model
-		
-		print.gravity - Print gravity model
-		
-		ralu.model - Columbia spotted frog (Rana luteiventris) data for specifying gravity model.   
-					Note, the data.frame is already log transformed.
-		
-		ralu.site - Subset of site-level spatial point data for Columbia spotted frog (Rana luteiventris)
-		
-		rasters - Subset of raster data for Columbia spotted frog (Rana luteiventris)
-		
-		summary.gravity - generic summary function for gravity model objects
+| `spatialEco` Function        | Description                                                                             |
+|:-----------------------------|:----------------------------------------------------------------------------------------|
+| `area.graph.statistics`      | Depreciated, please use graph.statistics with buffer argument
+| `build.node.data`            | Build node data 
+| `compare.models`             | Compare competing hypothesis (models)
+| `dmatrix.df`                 | Distance matrix to data.frame
+| `dps`                        | dps genetic distance matrix for Columbia spotted frog (Rana luteiventris)
+| `flow`                       | Convert distance matrix to flow (1-d)
+| `graph.statistics`           | Raster statistics for edges (lines)
+| `gravity.es`                 | Effect size for a gravity model
+| `gravity`                    | Gravity model
+| `knn.graph`                  | K Nearest Neighbor or saturated Graph
+| `node.statistics`            | Raster statistics for nodes (points)
+| `plot.gravity`               | plot generic for a gravity model object
+| `predict.gravity`            | predict generic gravity model
+| `print.gravity`              | print generic gravity model
+| `ralu.model`                 | Columbia spotted frog (Rana luteiventris) data for specifying gravity model. Note, the data.frame is already log transformed.
+| `ralu.site`                  | Subset of site-level spatial point data for Columbia spotted frog (Rana luteiventris)
+| `rasters`                    | Subset of raster data for Columbia spotted frog (Rana luteiventris)
+| `summary.gravity`            | summary generic for gravity model objects
 		
 **Bugs**: Users are encouraged to report bugs here. Go to [issues](https://github.com/jeffreyevans/GeNetIt/issues) in the menu above, and press new issue to start a new bug report, documentation correction or feature request. You can direct questions to <jeffrey_evans@tnc.org>.
 
