@@ -19,7 +19,7 @@ gravity models following Murphy et al., (2010).
 | `dmatrix.df`                 | Distance matrix to data.frame
 | `dps`                        | dps genetic distance matrix for Columbia spotted frog (Rana luteiventris)
 | `flow`                       | Convert distance matrix to flow (1-d)
-| `graph.statistics`           | Raster statistics for edges (lines)
+| `graph.statistics`           | Raster statistics for edges (lines) with buffer argument for multi-scale assessment
 | `gravity.es`                 | Effect size for a gravity model
 | `gravity`                    | Gravity model
 | `knn.graph`                  | K Nearest Neighbor or saturated Graph
