@@ -8,6 +8,7 @@ citHeader("To cite GeNetIt package in publications please use:")
      ),
      year = "2020",
      note = "R package version 0.1-3",
+	 keywords = "GeNetIt-package"
    )
 
 citHeader("citation for gravity method Murphy et al., (2010)")   
@@ -20,6 +21,6 @@ citHeader("citation for gravity method Murphy et al., (2010)")
     volume = "17",
 	pages="3634-3649",
     year = "2010",
-	key = "gravity model",
+	keywords = "gravity model",
    )   
   
