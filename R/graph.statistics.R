@@ -69,9 +69,6 @@ graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NUL
     if(attributes(x$geometry)$class[1] != "LINESTRING")
       stop("x must be a sf sfc_LINE object")
   }	
-  if(!sp::is.projected(x))
-    warning("Projection is not defined or in lat/long, is it recommended that you 
-      project your data to prevent planiar distortions")
   if(inherits(x, "SpatialLinesDataFrame")) {
 	  x <- sf::st_as_sf(x)
   }    
