@@ -65,7 +65,7 @@ knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL,
       knn.nb <- suppressWarnings( spdep::knn2nb(knn, row.names = row.names, 
 	                                            sym = sym) )
     if(!is.na(sp::proj4string(x))) { 
-	  prj <- sp::CRS(sp::proj4string(x))
+	  prj <- sp::CRS(sp::wkt(x))
 	} else { 
 	  prj <- sp::CRS(as.character(NA)) 
 	}  
