@@ -62,11 +62,12 @@ graph.metrics <- function(x, node.pts, node.name=NULL, direct = FALSE,
 	 						     length_as_weight = TRUE,
    							     edges_as_lines = TRUE)
     gm <- data.frame(sf::st_drop_geometry(node.pts[,node.name]))
+	  w <- g$weight/sum(g$weight)
 	  if("betweenness" %in% m)
-        gm$betweenness <- igraph::betweenness(g)
+        gm$betweenness <- igraph::betweenness(g, directed=FALSE, weights=w)
 	  if("degree" %in% m)	
 	    gm$degree <- igraph::degree(g)
       if("closeness" %in% m)
-	    gm$closeness <- igraph::closeness(g)
+	    gm$closeness <- igraph::closeness(g, weights=w)
   return(gm)
 }
