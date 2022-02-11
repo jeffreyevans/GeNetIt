@@ -5,3 +5,6 @@ LICENSE
 README.md
 .git
 ^CRAN-RELEASE$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
