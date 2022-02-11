@@ -9,7 +9,7 @@ graph.statistics(x, r, stats = c("min", "mean", "max"), buffer = NULL)
 \arguments{
 \item{x}{sp SpatialLinesDataFrame or sf LINE object}
 
-\item{r}{A rasterLayer, rasterStack or rasterBrick object}
+\item{r}{A terra SpatRast or raster rasterLayer, rasterStack, rasterBrick object}
 
 \item{stats}{Statistics to calculate. If vectorized, can pass a custom 
 statistic function.}
@@ -31,15 +31,18 @@ the statistics are derived from raster values that directly intersect each edge.
 \examples{
 \donttest{
  library(sp)
- library(spdep)
+ library(sf)
  library(raster)
+ library(terra)  
    data(rasters)
    data(ralu.site)
- 
- xvars <- stack(rasters)
+
+ xvars <- rast(stack(rasters))
+ ralu.site <- as(ralu.site, "sf")
  
   dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
                           max.dist = 1500)
+					   
    str(dist.graph@data)
    
  skew <- function(x, na.rm = TRUE) {  

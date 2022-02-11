@@ -2,7 +2,7 @@
 #' @description Extracts raster values for each edge and calculates specified statistics
 #'
 #' @param x          sp SpatialLinesDataFrame or sf LINE object 
-#' @param r          A rasterLayer, rasterStack or rasterBrick object
+#' @param r          A terra SpatRast or raster rasterLayer, rasterStack, rasterBrick object
 #' @param stats      Statistics to calculate. If vectorized, can pass a custom 
 #'                   statistic function. 
 #' @param buffer     Buffer distance, radius in projection units. For statistics 
@@ -18,15 +18,18 @@
 #' @examples
 #' \donttest{
 #'  library(sp)
-#'  library(spdep)
+#'  library(sf)
 #'  library(raster)
+#'  library(terra)  
 #'    data(rasters)
 #'    data(ralu.site)
-#'  
-#'  xvars <- stack(rasters)
+#'	
+#'  xvars <- rast(stack(rasters))
+#'  ralu.site <- as(ralu.site, "sf")
 #'  
 #'   dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
 #'                           max.dist = 1500)
+#'						   
 #'    str(dist.graph@data)
 #'    
 #'  skew <- function(x, na.rm = TRUE) {  
@@ -60,28 +63,39 @@
 #' }
 #' 
 #' @export graph.statistics
-graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NULL) {							 
-  if (!any(class(r)[1] == c("RasterLayer", "RasterStack", "RasterBrick"))) 
-      stop("r must be a raster (layer, stack, brick) class object")
+graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NULL) {
+							 
+  if (!any(class(r)[1] == c("SpatRaster", "RasterLayer", "RasterStack", "RasterBrick"))) 
+    stop("r must be a terra or raster class object") 
   if (!any(class(x)[1] == c("SpatialLinesDataFrame", "sf"))) 
-      stop("x must be a SpatialLinesDataFrame or sf LINESTRING object")
-  if(class(x)[1] == "sf"){
-    if(attributes(x$geometry)$class[1] != "LINESTRING")
-      stop("x must be a sf sfc_LINE object")
-  }	
+    stop("x must be a sp SpatialLinesDataFrame or sf LINESTRING object") 
   if(inherits(x, "SpatialLinesDataFrame")) {
-	  x <- sf::st_as_sf(x)
+    x <- sf::st_as_sf(x)
   }    
+  if(!inherits(r, "SpatRaster")) {
+    r <- terra::rast(r)
+  }
+  if(attributes(x$geometry)$class[1] != "sfc_LINESTRING")
+    stop("x must be a sf sfc_LINE object")
   #### Extract all values intersecting lines
   if(is.null(buffer)) {
-    buffer <- raster::res(r)[1] * 0.05
+    ldf <- terra::extract(r, terra::vect(x))
+	  ldf <- lapply(unique(ldf$ID), function(i) { 
+	    j <- as.data.frame(ldf[ldf$ID == i,][,-1])
+          names(j) <- names(r)		
+		return(j)} )
   } else {	
     message(paste0("Using ", buffer, " distance for statistics"))
-  }
-  x <- sf::st_buffer(x, dist = buffer)  
-  ldf <- exactextractr::exact_extract(r, x, progress = FALSE)
-    ldf <- lapply(ldf, FUN = function(x) as.data.frame(x[,-which(names(x) %in% "coverage_fraction")]))	
-	  names(ldf) <- row.names(x)
+	  b <- sf::st_buffer(x, dist = buffer)
+      if(!nrow(b) == nrow(x))
+        stop("Sorry, something went wrong with buffering, features do not match")
+      ldf <- exactextractr::exact_extract(r, b, progress = FALSE)
+	    ldf <- lapply(ldf, FUN = function(x) {
+		  j <- as.data.frame(x[,-which(names(x) %in% "coverage_fraction")])
+		    names(j) <- names(r)
+		  return(j)})
+          names(ldf) <- row.names(x)	
+  }  
     stats.fun <- function(x, m = stats) {
 	  slist <- list()
         for(i in 1:length(m)) {

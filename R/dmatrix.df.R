@@ -16,19 +16,19 @@
 #'         Melanie Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @examples 
-#'   library(sp)
-#'   pts <- cbind( x=runif(15, 480933, 504250), y=runif(15, 4479433, 4535122))
-#'     pts <- SpatialPointsDataFrame(pts, 
-#'              data.frame(ID=paste("ob",1:nrow(pts),sep="")))
-#'   
-#'   # Create distance matrix  
-#'   dm <- spDists(pts, pts)  
-#'     colnames(dm) <- pts@@data[,"ID"] 
-#'     rownames(dm) <- pts@@data[,"ID"]
-#'   
-#'   # Coerce to data.frame with TO and FROM ID's and associated distance
-#'   dm.df <- dmatrix.df(dm)
-#'     head(dm.df)
+#'  library(sp)
+#'  pts <- cbind(x=runif(15, 480933, 504250), y=runif(15, 4479433, 4535122))
+#'    pts <- SpatialPointsDataFrame(pts, 
+#'             data.frame(ID=paste("ob",1:nrow(pts),sep="")))
+#'  
+#'  # Create distance matrix  
+#'  dm <- spDists(pts, pts)  
+#'    colnames(dm) <- pts@@data[,"ID"] 
+#'    rownames(dm) <- pts@@data[,"ID"]
+#'  
+#'  # Coerce to data.frame with TO and FROM ID's and associated distance
+#'  dm.df <- dmatrix.df(dm)
+#'    head(dm.df)
 #'
 #' @export
 dmatrix.df <- function(x, rm.diag = TRUE) {
@@ -37,7 +37,7 @@ dmatrix.df <- function(x, rm.diag = TRUE) {
     values <- as.vector(x)
     dn <- dimnames(x)
     char <- sapply(dn, is.character)
-    dn[char] <- lapply(dn[char], utils::type.convert)
+    dn[char] <- lapply(dn[char], utils::type.convert, as.is=TRUE)
     indices <- do.call(expand.grid, dn)
       names(indices) <- varnames
       indices <- data.frame(indices, distance = values)

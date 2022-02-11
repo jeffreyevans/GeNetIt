@@ -1,22 +1,22 @@
 #' @title Saturated or K Nearest Neighbor Graph
 #' @description Creates a kNN or saturated graph SpatialLinesDataFrame object  
 #'
-#' @param x              sp SpatialPointsDataFrame object
+#' @param x              sf POINTS object
 #' @param row.names      Unique row.names assigned to results  
 #' @param k              K nearest neighbors, defaults to saturated (n(x) - 1)
 #' @param max.dist       Maximum length of an edge (used for distance constraint)
-#' @param sym            Create symmetrical graph (FALSE/TRUE)
-#' @param drop.lower     (FALSE/TRUE) Drop lower triangle of matrix (duplicate edges) 
+#' @param drop.lower     (FALSE/TRUE) Drop lower triangle of matrix representing  
+#'                        duplicate edges ie, from-to and to-from 
 #' @param long.lat       (FALSE/TRUE) Coordinates are longitude-latitude decimal degrees, 
 #'                        in which case distances are measured in kilometers
+#' @param as.sp          (FALSE/TRUE) Output sp class SpatialLinesDataFrame object
 #' 
 #' @return   SpatialLinesDataFrame object with:
 #' * i        Name of column in x with FROM (origin) index
 #' * j        Name of column in x with TO (destination) index
 #' * from_ID  Name of column in x with FROM (origin) region ID
 #' * to_ID    Name of column in x with TO (destination) region ID
-#' * length   Length of each edge (line) in projection units or kilometers 
-#'            if long.lat = TRUE
+#' * length   Length of each edge (line) in projection units or kilometers if not projected
 #' @md
 #'
 #' @note ...
@@ -32,74 +32,82 @@
 #'   high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649 
 #'
 #' @examples
-#'    library(sp) 
-#'    data(ralu.site)
-#'
+#'  library(sf)
+#'    data(ralu.site, package="GeNetIt")
+#'    ralu.site <- as(ralu.site, "sf")
+#'	
 #'  # Saturated spatial graph
-#'  sat.graph <- knn.graph(ralu.site, row.names=ralu.site@@data[,"SiteName"])
+#'  sat.graph <- knn.graph(ralu.site, row.names=ralu.site$SiteName)
 #'    head(sat.graph)
 #'  
 #'  # Distanced constrained spatial graph
-#'  dist.graph <- knn.graph(ralu.site, row.names=ralu.site@@data[,"SiteName"], 
+#'  dist.graph <- knn.graph(ralu.site, row.names=ralu.site$SiteName, 
 #'                          max.dist = 5000)
 #'	
 #' opar <- par(no.readonly=TRUE)
 #'  par(mfrow=c(1,2))	
-#'	plot(sat.graph, col="grey")
-#'	  points(ralu.site, col="red", pch=20, cex=1.5)
+#'	plot(st_geometry(sat.graph), col="grey")
+#'	  points(st_coordinates(ralu.site), col="red", pch=20, cex=1.5)
 #'      box()
 #'      title("Saturated graph")	
-#'	plot(dist.graph, col="grey")
-#'	  points(ralu.site, col="red", pch=20, cex=1.5)
+#'	plot(st_geometry(dist.graph), col="grey")
+#'	  points(st_coordinates(ralu.site), col="red", pch=20, cex=1.5)
 #'      box()
 #'      title("Distance constrained graph")
 #' par(opar)	  
 #'		
 #' @export			  
 knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL, 
-                       sym = FALSE, long.lat = FALSE, drop.lower = FALSE) 
+                       long.lat = FALSE, drop.lower = FALSE, as.sp = FALSE) 
    {
-    if(is.null(k)) k=(dim(x)[1] - 1)
-	  knn <- suppressWarnings( spdep::knearneigh(sp::coordinates(x), k = k, 
+   if(methods::is(x, "Spatial")) x <- sf::st_as_sf(x)
+     if(!is(x, "sf"))
+       stop("x does not appear to be a valid spatial class of sf or sp")
+	if(attributes(x$geometry)$class[1] != "sfc_POINT")
+       stop("x is not POINT geometry") 
+	if(is.null(k)) k=(dim(x)[1] - 1)
+	  knn <- suppressWarnings( spdep::knearneigh(sf::st_coordinates(x), k = k, 
 	                           longlat = long.lat) )
       knn.nb <- suppressWarnings( spdep::knn2nb(knn, row.names = row.names, 
-	                                            sym = sym) )
-    if(!is.na(sp::proj4string(x))) { 
-	  prj <- sp::CRS(sp::wkt(x))
+	                             sym = FALSE) )
+    if(!is.na(sf::st_crs(x))) { 
+	  prj <- sf::st_crs(x)
 	} else { 
-	  prj <- sp::CRS(as.character(NA)) 
-	}  
+	  prj <- sf::st_crs(NA)
+	} 
     if (!is.null(row.names)) {
-      if (length(row.names) != knn$np) stop("row.names wrong length")
-      if (length(unique(row.names)) != length(row.names)) stop("non-unique row.names given")
+      if (length(row.names) != knn$np) 
+	    stop("row.names wrong length")
+      if (length(unique(row.names)) != length(row.names)) 
+	    stop("non-unique row.names given")
     }
-    if (knn$np < 1) stop("non-positive number of spatial units")
-    if (is.null(row.names)) row.names <- as.character(1:knn$np)
-	graph <- spdep::nb2lines(knn.nb, coords = sp::coordinates(x), proj4string = prj)
-	graph@data <- data.frame(graph@data[,1:4], length = sp::SpatialLinesLengths(graph, 
-	                         longlat = long.lat))
-	  names(graph@data)[3:4] <- c("from_ID","to_ID")
-	    graph@data[,"from_ID"]<- as.character(graph@data[,"from_ID"])
-        graph@data[,"to_ID"]<- as.character(graph@data[,"to_ID"])	
-    rm.lower <- function(x) {
+	if (knn$np < 1) stop("non-positive number of spatial units")   
+	if (is.null(row.names)) row.names <- as.character(1:knn$np)
+	graph <- spdep::nb2lines(knn.nb, coords = sf::st_coordinates(x), 
+	                         proj4string = prj, as_sf=TRUE)
+	  graph$length <- as.numeric(sf::st_length(graph))						 
+	    names(graph)[3:4] <- c("from_ID","to_ID")
+	      graph$from_ID <- as.character(graph$from_ID)
+          graph$to_ID <- as.character(graph$to_ID)	
+	rm.lower <- function(x) {
       ldiag <- function (x, diag=FALSE) {
             x <- as.matrix(x)
           if (diag) 
             row(x) >= col(x)
           else row(x) > col(x) 
         }  
-        ctmx <- table(x@data$i, x@data$j) 	
+        ctmx <- table(x$i, x$j) 	
           ctmx[ldiag(ctmx)] <- 0
-          ctmx <- dmatrix.df(as.matrix(ctmx)) 
+            ctmx <- dmatrix.df(as.matrix(ctmx)) 
         ctmx <- data.frame(ij=paste(ctmx[,1], ctmx[,2], sep="."), dup=ctmx[,3])
-        x@data <- cbind(ij=paste(x@data[,"i"], x@data[,"j"], sep="."), x@data)
-          x <- merge(x, ctmx, by="ij")						 
+        x$ij <- paste(x$i, x$j, sep=".")
+          x <- merge(x, ctmx, by="ij")
           x <- x[x$dup == 1,]
-        x@data <- x@data[,-which(names(x@data) %in% c("ij","dup"))]
+        x <- x[,-which(names(x) %in% c("ij","dup"))]
       return(x)
     }
-	
-	if(drop.lower == TRUE) { graph <- rm.lower(graph)  }  
-	if(!is.null(max.dist)) graph <- graph[graph$length <= max.dist,] 	
+  	    if(drop.lower == TRUE) { graph <- rm.lower(graph)  }  
+	  if(!is.null(max.dist)) graph <- graph[graph$length <= max.dist,] 
+    if(as.sp) graph <- sf::as_Spatial(graph)	
   return( graph )
 }
