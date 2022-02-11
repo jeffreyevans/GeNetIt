@@ -48,7 +48,7 @@ The default is to output the log scaled predictions.
 }
 \examples{
 library(nlme)
-data(ralu.model)
+  data(ralu.model)
 
 back.transform <- function(y) exp(y + 0.5 * stats::var(y))
 rmse = function(p, o){ sqrt(mean((p - o)^2)) } 
@@ -94,4 +94,8 @@ Miller, D.M. (1984) Reducing Transformation Bias in Curve Fitting
 
 Naihua, D. (1983) Smearing Estimate: A Nonparametric Retransformation Method 
   Journal of the American Statistical Association, 78(383):605–610.
+}
+\author{
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie A. Murphy <melanie.murphy@uwyo.edu>
 }

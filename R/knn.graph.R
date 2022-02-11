@@ -22,7 +22,7 @@
 #' @note ...
 #'
 #' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
-#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
+#'         Melanie A. Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @references
 #' Murphy, M. A. & J.S. Evans. (in prep). "GenNetIt: gravity analysis in R for landscape 
@@ -61,7 +61,7 @@ knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL,
                        long.lat = FALSE, drop.lower = FALSE, as.sp = FALSE) 
    {
    if(methods::is(x, "Spatial")) x <- sf::st_as_sf(x)
-     if(!is(x, "sf"))
+     if(!methods::is(x, "sf"))
        stop("x does not appear to be a valid spatial class of sf or sp")
 	if(attributes(x$geometry)$class[1] != "sfc_POINT")
        stop("x is not POINT geometry") 

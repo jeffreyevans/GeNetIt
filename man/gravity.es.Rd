@@ -44,5 +44,5 @@ Cohen, J. (1988) Statistical power for the behavioral sciences (2nd ed.).
 }
 \author{
 Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
-        Melanie Murphy <melanie.murphy@uwyo.edu>
+        Melanie A. Murphy <melanie.murphy@uwyo.edu>
 }

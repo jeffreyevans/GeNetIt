@@ -41,5 +41,5 @@ flow(dm)
 }
 \author{
 Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
-        Melanie Murphy <melanie.murphy@uwyo.edu>
+        Melanie A. Murphy <melanie.murphy@uwyo.edu>
 }

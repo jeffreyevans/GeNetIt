@@ -34,9 +34,12 @@
 #' Naihua, D. (1983) Smearing Estimate: A Nonparametric Retransformation Method 
 #'   Journal of the American Statistical Association, 78(383):605–610. 
 #' 
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie A. Murphy <melanie.murphy@@uwyo.edu>
+#'
 #' @examples 
 #' library(nlme)
-#' data(ralu.model)
+#'   data(ralu.model)
 #' 
 #' back.transform <- function(y) exp(y + 0.5 * stats::var(y))
 #' rmse = function(p, o){ sqrt(mean((p - o)^2)) } 
@@ -79,6 +82,7 @@
 #' @export
 predict.gravity <- function (object, newdata, groups = NULL, 
                              back.transform = c("none", "simple", "Miller", "Naihua"), ...) {
+  back.transform = back.transform[1]
   if(class(object$gravity) == "lme") { 					   
   m <- do.call("lme.formula", list(fixed = object$fixed.formula,
             data = object$gravity$data, 
@@ -111,7 +115,7 @@ predict.gravity <- function (object, newdata, groups = NULL,
 	  y ~ exp(y-hat) regression with no intercept,
 	  does not assume normally distributed errors")	  
 	    p1 <- exp(object$gravity$fitted[,1])
-		  y <- stats::coef(lm(object$y-0 ~ p1))[2]
+		  y <- stats::coef(stats::lm(object$y-0 ~ p1))[2]
 		p <- y * exp(p)	
 	  }
 	}

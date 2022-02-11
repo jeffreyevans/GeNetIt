@@ -15,6 +15,9 @@
 #' buffer radius are extracted and included in the derived statistic(s). Else-wise,
 #' the statistics are derived from raster values that directly intersect each edge.  
 #'  
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie A. Murphy <melanie.murphy@@uwyo.edu>
+#'
 #' @examples
 #' \donttest{
 #'  library(sp)
@@ -27,11 +30,9 @@
 #'  xvars <- rast(stack(rasters))
 #'  ralu.site <- as(ralu.site, "sf")
 #'  
-#'   dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
-#'                           max.dist = 1500)
-#'						   
-#'    str(dist.graph@data)
-#'    
+#'   ( dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
+#'                             max.dist = 1500) )
+#'  
 #'  skew <- function(x, na.rm = TRUE) {  
 #'            if (na.rm) x <- x[!is.na(x)]
 #'            sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
@@ -58,13 +59,10 @@
 #' 			      buffer = 500) 
 #'  } )
 #' 
-#'  dist.graph@@data <- data.frame(dist.graph@@data, stats, nstats)
-#'    str(dist.graph@@data)
 #' }
 #' 
 #' @export graph.statistics
-graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NULL) {
-							 
+graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NULL) {						 
   if (!any(class(r)[1] == c("SpatRaster", "RasterLayer", "RasterStack", "RasterBrick"))) 
     stop("r must be a terra or raster class object") 
   if (!any(class(x)[1] == c("SpatialLinesDataFrame", "sf"))) 
@@ -77,6 +75,11 @@ graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NUL
   }
   if(attributes(x$geometry)$class[1] != "sfc_LINESTRING")
     stop("x must be a sf sfc_LINE object")
+  if(sf::st_is_longlat(x))
+    warning("Projection is not defined or in lat/long, is it recommended that you 
+      project your data to prevent planar distortions in the buffer")	
+  if(!sf::st_crs(x) == sf::st_crs(terra::crs(r)))
+    warning("x and r projections do not match")	
   #### Extract all values intersecting lines
   if(is.null(buffer)) {
     ldf <- terra::extract(r, terra::vect(x))

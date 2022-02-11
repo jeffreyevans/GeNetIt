@@ -40,11 +40,9 @@ the statistics are derived from raster values that directly intersect each edge.
  xvars <- rast(stack(rasters))
  ralu.site <- as(ralu.site, "sf")
  
-  dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
-                          max.dist = 1500)
-					   
-   str(dist.graph@data)
-   
+  ( dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
+                            max.dist = 1500) )
+ 
  skew <- function(x, na.rm = TRUE) {  
            if (na.rm) x <- x[!is.na(x)]
            sum( (x - mean(x)) ^ 3) / ( length(x) * sd(x) ^ 3 )  
@@ -71,8 +69,10 @@ p <- function(x) { length(x[x < 52]) / length(x) }
 			      buffer = 500) 
  } )
 
- dist.graph@data <- data.frame(dist.graph@data, stats, nstats)
-   str(dist.graph@data)
 }
 
+}
+\author{
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie A. Murphy <melanie.murphy@uwyo.edu>
 }

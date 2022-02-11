@@ -9,6 +9,9 @@
 #'
 #' @return    A binary matrix
 #'
+#' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
+#'         Melanie A. Murphy <melanie.murphy@@uwyo.edu>
+#'
 #' @examples
 #'  library(sf)
 #'    data(ralu.site, package="GeNetIt")

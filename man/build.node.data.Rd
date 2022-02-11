@@ -43,5 +43,5 @@ site <- build.node.data(ralu.site@data, group.ids = c("SiteName"),
 }
 \author{
 Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
-        Melanie Murphy <melanie.murphy@uwyo.edu>
+        Melanie A. Murphy <melanie.murphy@uwyo.edu>
 }

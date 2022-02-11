@@ -82,5 +82,5 @@ high mountain frog metapopulations. Molecular Ecology 19(17):3634-3649
 }
 \author{
 Jeffrey S. Evans  \href{mailto:jeffrey_evans@tnc.org}{jeffrey_evans@tnc.org} and
-Melanie Murphy \href{mailto:melanie.murphy@uwyo.edu}{melanie.murphy@uwyo.edu}
+Melanie A. Murphy \href{mailto:melanie.murphy@uwyo.edu}{melanie.murphy@uwyo.edu}
 }

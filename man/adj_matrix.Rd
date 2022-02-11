@@ -35,3 +35,7 @@ Creates a binary matrix of adjacencies based on
  adj_matrix(g$i[1:10], g$j[1:10])
 
 }
+\author{
+Jeffrey S. Evans  <jeffrey_evans@tnc.org> and 
+        Melanie A. Murphy <melanie.murphy@uwyo.edu>
+}

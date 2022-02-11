@@ -38,7 +38,7 @@
 #' @note Depends: nlme, lattice
 #'
 #' @author Jeffrey S. Evans  <jeffrey_evans@@tnc.org> and 
-#'         Melanie Murphy <melanie.murphy@@uwyo.edu>
+#'         Melanie A. Murphy <melanie.murphy@@uwyo.edu>
 #'
 #' @references
 #' Murphy, M. A. & J.S. Evans. (in prep). GenNetIt: graph theoretical gravity modeling 
