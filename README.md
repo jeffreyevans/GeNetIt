@@ -14,11 +14,13 @@ gravity models following Murphy et al., (2010).
 
 | `GeNetIt` Function           | Description                                                                             |
 |:-----------------------------|:----------------------------------------------------------------------------------------|
+| `adj.matrix`                 | Creates binary adjacency matrix of from-to (joins) structure of graph 
 | `build.node.data`            | Build node data 
 | `compare.models`             | Compare competing hypothesis (models)
 | `dmatrix.df`                 | Distance matrix to data.frame
 | `dps`                        | dps genetic distance matrix for Columbia spotted frog (Rana luteiventris)
 | `flow`                       | Convert distance matrix to flow (1-d)
+| `graph.metrics`              | Calculates a suite of metrics on the structure of the graph
 | `graph.statistics`           | Raster statistics for edges (lines) with buffer argument for multi-scale assessment
 | `gravity.es`                 | Effect size for a gravity model
 | `gravity`                    | Gravity model
