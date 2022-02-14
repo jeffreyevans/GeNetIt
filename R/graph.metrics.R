@@ -62,7 +62,10 @@ graph.metrics <- function(x, node.pts, node.name=NULL, direct = FALSE,
 	 						     length_as_weight = TRUE,
    							     edges_as_lines = TRUE)
     gm <- data.frame(sf::st_drop_geometry(node.pts[,node.name]))
-	  w <- g$weight/sum(g$weight)
+	  #w <- g$weight/sum(g$weight)
+	  w <- g |> tidygraph::activate("edges") |> dplyr::pull(weight) |> as.numeric()
+        w[w <= 0] <- 1
+          w = w / sum(w)
 	  if("betweenness" %in% m)
         gm$betweenness <- igraph::betweenness(g, directed=FALSE, weights=w)
 	  if("degree" %in% m)	
