@@ -41,7 +41,7 @@
 #' library(nlme)
 #'   data(ralu.model)
 #' 
-#' back.transform <- function(y) exp(y + 0.5 * stats::var(y))
+#' back.transform <- function(y) exp(y + 0.5 * stats::var(y, na.rm=TRUE))
 #' rmse = function(p, o){ sqrt(mean((p - o)^2)) } 
 #' 
 #' x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
@@ -62,14 +62,15 @@
 #' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Miller") )
 #' ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Naihua") )
 #'
-#'  
 #' # Using grouped data
 #' test <- nlme::groupedData(stats::as.formula(paste(paste("DPS", 1, sep = " ~ "), 
 #'           "FROM_SITE", sep = " | ")), 
 #' 		  data = test[,c("DPS", "FROM_SITE", x, "DISTANCE")])
 #' 
 #' ( p <- predict(gm, test, groups = "FROM_SITE") )
-#'   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx]))
+#' ( y.hat <- back.transform(ralu.model[,"DPS"][-sidx]) )
+#'     na.idx <- which(is.na(p))
+#'   rmse(back.transform(p)[-na.idx], y.hat[-na.idx])
 #'
 #' # Specify unconstrained gravity model (generally, not recommended)	
 #' ( gm <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
