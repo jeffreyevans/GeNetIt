@@ -11,11 +11,11 @@ Description: Implementation of spatial graph-theoretic genetic gravity models.
     associated raster variables and building unconstrained and singly constrained
     gravity models.
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.0.0),
+	nlme
 Imports:
     exactextractr,
 	methods,
-    nlme,
     sp,
     spdep,
     raster,
