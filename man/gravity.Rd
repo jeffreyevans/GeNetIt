@@ -4,7 +4,17 @@
 \alias{gravity}
 \title{Gravity model}
 \usage{
-gravity(y, x, d, group, data, ln = TRUE, constrained = TRUE, ...)
+gravity(
+  y,
+  x,
+  d,
+  group,
+  data,
+  fit.method = c("REML", "ML"),
+  ln = TRUE,
+  constrained = TRUE,
+  ...
+)
 }
 \arguments{
 \item{y}{Name of dependent variable}
@@ -53,7 +63,8 @@ y                 Vector of y variable
 constrained       TRUE/FALSE indicating if model is constrained
 }
 \description{
-Implements Murphy et al., (2010) gravity model
+Implements Murphy et al., (2010) gravity model via a 
+             linear mixed effects model
 }
 \details{
 The "group" factor defines the singly constrained direction (from or to) and the 

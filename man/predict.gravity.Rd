@@ -7,6 +7,8 @@
 \method{predict}{gravity}(
   object,
   newdata,
+  y = NULL,
+  x = NULL,
   groups = NULL,
   back.transform = c("none", "simple", "Miller", "Naihua"),
   ...
@@ -39,7 +41,7 @@ your parameter space is on a log scale, not just y. This means that for
 a meaningful prediction the "newdata" also needs to be on a log scale.
   
 For the back.transform argument, the simple back-transform method uses the 
-form exp(y-hat)0.5*variance whereas Miller uses exp(sigma)*05 as the 
+form exp(y-hat)0.5*variance whereas Miller uses exp(sigma)*0.5 as the 
 multiplicative bias factor. Naihua regresses y~exp(y-hat) with no intercept 
 and uses the resulting coefficient as the multiplicative bias factor. The
 Naihua method is intended for results with non-normal errors. You can check
@@ -50,7 +52,7 @@ The default is to output the log scaled predictions.
 library(nlme)
   data(ralu.model)
 
-back.transform <- function(y) exp(y + 0.5 * stats::var(y))
+back.transform <- function(y) exp(y + 0.5 * stats::var(y, na.rm=TRUE))
 rmse = function(p, o){ sqrt(mean((p - o)^2)) } 
 
 x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
@@ -71,14 +73,15 @@ sidx <- sample(1:nrow(ralu.model), 100)
 ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Miller") )
 ( p <- predict(gm, test[,c(x, "DISTANCE")], back.transform = "Naihua") )
 
- 
 # Using grouped data
 test <- nlme::groupedData(stats::as.formula(paste(paste("DPS", 1, sep = " ~ "), 
           "FROM_SITE", sep = " | ")), 
 		  data = test[,c("DPS", "FROM_SITE", x, "DISTANCE")])
 
 ( p <- predict(gm, test, groups = "FROM_SITE") )
-  rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx]))
+( y.hat <- back.transform(ralu.model[,"DPS"][-sidx]) )
+    na.idx <- which(is.na(p))
+  rmse(back.transform(p)[-na.idx], y.hat[-na.idx])
 
 # Specify unconstrained gravity model (generally, not recommended)	
 ( gm <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
