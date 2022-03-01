@@ -1,5 +1,6 @@
 #' @title Gravity model
-#' @description Implements Murphy et al., (2010) gravity model
+#' @description Implements Murphy et al., (2010) gravity model via a 
+#'              linear mixed effects model
 #' 
 #' @param y              Name of dependent variable
 #' @param x              Character vector of independent variables
@@ -80,8 +81,10 @@
 #' @import nlme
 #' @exportClass gravity
 #' @export
-gravity <- function (y, x, d, group, data, ln = TRUE, constrained = TRUE, ...) 
+gravity <- function (y, x, d, group, data, fit.method = c("REML", "ML"),  
+                     ln = TRUE, constrained = TRUE, ...) 
 {
+  fit.method = fit.method[1]
     if (missing(d)) 
       stop("Distance must be included")
     if (missing(x)) {
@@ -90,50 +93,46 @@ gravity <- function (y, x, d, group, data, ln = TRUE, constrained = TRUE, ...)
 	back.transform <- function(y) exp(y + 0.5 * stats::var(y))
 	rmse = function(p, o){ sqrt(mean((p - o)^2)) }
     x <- unique(c(x, d))
-    fmla <- stats::as.formula(paste(paste(y, "~", sep = ""), 
+    fixed.call <- stats::as.formula(paste(paste(y, "~", sep = ""), 
                               paste(x, collapse = "+")))
-	gdata <- data[, c(group, y, x)]
-    gdata <- nlme::groupedData(stats::as.formula(paste(paste(y, 
-                               1, sep = " ~ "), group, sep = " | ")), 
-							   data = gdata)
+	random.call <- stats::as.formula(paste(paste(y, 1, sep = " ~ "), 
+	                                 group, sep = " | "))
+	gdata <- data[,c(group, y, x)]
     if (ln == TRUE) {
         gdata[, x] <- log(abs(gdata[, x]))
         gdata[, y] <- log(abs(gdata[, y]))
         gdata[gdata == -Inf] <- 0
         gdata[gdata == Inf] <- 0
     }
-    if (constrained == FALSE) {
-        print("Running unconstrained gravity model, defaulting to OLS. Please check assumptions")
-        gvlmm <- stats::lm(fmla, data = gdata, ...)
-        gvaic <- stats::AIC(gvlmm)
-        gm <- list(formula = fmla, gravity = gvlmm, 
-		           fit = stats::fitted(gvlmm), AIC = gvaic, 
-				   RMSE = rmse(back.transform(stats::fitted(gvlmm)), 
-				   back.transform(gdata[,y])), 
-				   x = data[,x], y = data[,y], 
-				   constrained = constrained)
-    } else {
-      if (!"groupedData" %in% class(gdata)) 
-        stop("Data must be a groupedData object for singly-constrained gravity model")
+    if (constrained == TRUE) {
       print("Running singly-constrained gravity model")
-	  gvlmm <- nlme::lme(fmla, stats::formula(gdata), data = gdata, ...)
-	    fixed.call <- fmla 
-		random.call <- stats::formula(gdata) 
-		#gvlmm$call <- stats::update(gvlmm, stats::formula(fmla, stats::formula(gdata)))$call
-		gvaic <- stats::AIC(gvlmm)
-	  gm <- list(formula = fmla, 
-	             fixed.formula = fixed.call, 
+	  gvlmm <- nlme::lme(fixed = stats::as.formula(paste(paste(y, "~", sep = ""), 
+                         paste(x, collapse = "+"))), data = gdata, 
+						 random=stats::as.formula(paste(paste(y, 1, sep = " ~ "), 
+	                     group, sep = " | ")))
+		if(fit.method == "ML") gvlmm <- update(gvlmm, method="ML") 
+	  gm <- list(fixed.formula = fixed.call, 
 	             random.formula = random.call, 
 		         gravity = gvlmm, 
                  fit = stats::fitted(gvlmm),
-                 AIC = gvaic,				 
+                 AIC = stats::AIC(gvlmm),				 
 				 RMSE = rmse(back.transform(stats::fitted(gvlmm)), 
-				 back.transform(gdata[,y])), 
+				             back.transform(gdata[,y])), 
                  log.likelihood = gvlmm$logLik,  
 				 group.names = group, 
 				 groups = gdata[,group], 
 				 x = data[,x], y = data[,y], 
 				 constrained = constrained)
+    } else {
+     print("Running unconstrained gravity model, defaulting to OLS. Please check assumptions")
+      gvlmm <- stats::lm(stats::as.formula(paste(paste(y, "~", sep = ""), 
+                              paste(x, collapse = "+"))), data = gdata)
+        gm <- list(formula = fixed.call, gravity = gvlmm, 
+		           fit = stats::fitted(gvlmm), AIC = stats::AIC(gvlmm), 
+				   RMSE = rmse(back.transform(stats::fitted(gvlmm)), 
+				   back.transform(gdata[,y])), 
+				   x = data[,x], y = data[,y], 
+				   constrained = constrained)	
     }
     class(gm) <- "gravity"
   return(gm)

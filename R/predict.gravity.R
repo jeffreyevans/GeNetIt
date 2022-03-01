@@ -20,7 +20,7 @@
 #' a meaningful prediction the "newdata" also needs to be on a log scale.
 #'   
 #' For the back.transform argument, the simple back-transform method uses the 
-#' form exp(y-hat)0.5*variance whereas Miller uses exp(sigma)*05 as the 
+#' form exp(y-hat)0.5*variance whereas Miller uses exp(sigma)*0.5 as the 
 #' multiplicative bias factor. Naihua regresses y~exp(y-hat) with no intercept 
 #' and uses the resulting coefficient as the multiplicative bias factor. The
 #' Naihua method is intended for results with non-normal errors. You can check
@@ -79,27 +79,29 @@
 #' ( p <- predict(gm, test[,c(x, "DISTANCE")]) )
 #'   rmse(back.transform(p), back.transform(ralu.model[,"DPS"][-sidx])) 
 #'
+#' @import nlme
 #' @method predict gravity
 #' @export
-predict.gravity <- function (object, newdata, groups = NULL, 
-                             back.transform = c("none", "simple", "Miller", "Naihua"), ...) {
-  back.transform = back.transform[1]
-  if(class(object$gravity) == "lme") { 					   
-  m <- do.call("lme.formula", list(fixed = object$fixed.formula,
-            data = object$gravity$data, 
-            random = object$random.formula))
+predict.gravity <- function(object, newdata, y = NULL, x = NULL, groups = NULL, 
+                            back.transform = c("none", "simple", "Miller", "Naihua"), ...) {
+  back.transform = back.transform[1]  	   
+  if(class(object$gravity) == "lme") { 
+    fixed.fml <- object$fixed.formula 
+    random.fml <- object$random.formula 
+      m <- do.call(nlme::lme.formula, list(fixed = object$fixed.formula,
+                   data = object$gravity$data, 
+                   random = object$random.formula))
     if(!is.null(groups)) {
-      if(class(newdata)[1] != "nffGroupedData")
-        stop("newdata must be grouped using nlme::groupedData")
-		  g <- newdata[,groups]
-	      message("Making group level (individual) predictions")
-		p <- stats::predict(m, newdata, Q = g, ...)
+	    message("Making individual-level (per-slope group) 
+		  constrained predictions")
+		  p <- stats::predict(m, newdata, Q = groups)
 	  } else {
-        message("Making population level predictions")	  
-		p <- stats::predict(m, newdata, level = 0, ...)
+        message("Making population-level constrained predictions")
+		  p <- nlme:::predict.lme(m, newdata, level = 0)
 	  } 
-  } else if(class(object$gravity) == "lm") {
-    p <- stats::predict(object$gravity, newdata, ...)
+  } else if(class(object) == "lm") {
+    message("Making population-level unconstrained predictions")
+      p <- stats::predict(object, newdata)
   } 
 	if(back.transform != "none") {	  
 	  if(back.transform == "simple") {
@@ -110,7 +112,7 @@ predict.gravity <- function (object, newdata, groups = NULL,
 	    message("Miller back-transformation using: 
 		  exp(sigma)*0.5*exp(y-hat)0.5*variance(y-hat), 
 		  assumes normally distributed errors")	  
-        p <- exp((summary(object$gravity)$sigma)*0.5) * exp(p + 0.5 * stats::var(p))	
+        p <- exp((summary(object$gravity)$sigma)*0.5) * exp(p + 0.5 * stats::var(p))
       } else if(back.transform == "Naihua") {
     message("Naihua back-transformation using: 
 	  y ~ exp(y-hat) regression with no intercept,
