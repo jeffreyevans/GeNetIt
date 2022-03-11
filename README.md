@@ -10,7 +10,7 @@ other types of matrix-based spatial flow (from-to) problems. Includes functions 
 sampling, summarizing associated raster variables and building unconstrained and singly constrained 
 gravity models following Murphy et al., (2010). 
 
-You can access a [full tutorial here] (https://spatialr.s3.us-west-2.amazonaws.com/Gravity/GravityModel.html)
+You can access a [full tutorial here](https://spatialr.s3.us-west-2.amazonaws.com/Gravity/GravityModel.html)
 
 # Available functions in GeNetIt 0.1-5 are:
 
