@@ -25,15 +25,16 @@ results can be joined back to the graph object using either the origin or
 destination ID's.
 }
 \examples{
- library(sp)
- pts <- cbind(x=runif(15, 480933, 504250), y=runif(15, 4479433, 4535122))
-   pts <- SpatialPointsDataFrame(pts, 
-            data.frame(ID=paste("ob",1:nrow(pts),sep="")))
+ library(sf)
+ pts <- data.frame(ID=paste0("ob",1:15), x=runif(15, 480933, 504250), 
+                   y=runif(15, 4479433, 4535122))
+   pts <- st_as_sf(pts, coords = c("x", "y"), 
+                   crs = 32611, agr = "constant") 
  
  # Create distance matrix  
- dm <- spDists(pts, pts)  
-   colnames(dm) <- pts@data[,"ID"] 
-   rownames(dm) <- pts@data[,"ID"]
+ dm <- units::drop_units(st_distance(pts))  
+   colnames(dm) <- pts$ID 
+   rownames(dm) <- pts$ID
  
  # Coerce to data.frame with TO and FROM ID's and associated distance
  dm.df <- dmatrix.df(dm)
