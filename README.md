@@ -1,4 +1,4 @@
-# GeNetIt (CRAN 0.1-4, development 0.1-5) <img src="man/figures/genetit_logo.jpg" align="right" alt="" width="160" />
+# GeNetIt (CRAN 0.1-4, development 0.1-5) <img src="man/figures/logo.png" align="right" height="132" />
 
 [![CRAN
 status](http://www.r-pkg.org/badges/version/GeNetIt)](https://cran.r-project.org/package=GeNetIt)
