@@ -1,4 +1,4 @@
-# GeNetIt (CRAN 0.1-4, development 0.1-5) <img src="man/figures/logo.png" align="right" height="132" />
+# GeNetIt (CRAN 0.1-6, development 0.1-7) <img src="man/figures/logo.png" align="right" height="132" />
 
 [![CRAN
 status](http://www.r-pkg.org/badges/version/GeNetIt)](https://cran.r-project.org/package=GeNetIt)
@@ -10,9 +10,12 @@ other types of matrix-based spatial flow (from-to) problems. Includes functions 
 sampling, summarizing associated raster variables and building unconstrained and singly constrained 
 gravity models following Murphy et al., (2010). 
 
+As of version 0.1-6 all support of raster (RasterLayer, RasterStack) and sp (SpatialPointsDataFrame) class objects  
+has ended, replaced by terra (SpatRaster) and sf (sf POINT) classes.  
+
 You can access a [full tutorial here](https://spatialr.s3.us-west-2.amazonaws.com/Gravity/GravityModel.html)
 
-# Available functions in GeNetIt 0.1-5 are:
+# Available functions in GeNetIt 0.1-6 are:
 
 | `GeNetIt` Function           | Description                                                                             |
 |:-----------------------------|:----------------------------------------------------------------------------------------|
