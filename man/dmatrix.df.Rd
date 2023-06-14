@@ -32,7 +32,9 @@ destination ID's.
                    crs = 32611, agr = "constant") 
  
  # Create distance matrix  
- dm <- units::drop_units(st_distance(pts))  
+ dm <- st_distance(pts)
+   class(dm) <- setdiff(class(dm), "units")  
+     attr(dm, "units") <- NULL
    colnames(dm) <- pts$ID 
    rownames(dm) <- pts$ID
  

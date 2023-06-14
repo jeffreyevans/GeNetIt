@@ -5,7 +5,7 @@
 \alias{ralu.site}
 \title{Subset of site-level spatial point data for Columbia spotted frog (Rana luteiventris)}
 \format{
-A SpatialPointsDataFrame with 31 obs. of  17 variables:
+An sf POINT object with 31 obs. of  17 variables:
 \describe{
 \item{SiteName}{Unique site name}
 \item{Drainage}{Source drainage}

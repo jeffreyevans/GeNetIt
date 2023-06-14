@@ -30,15 +30,11 @@ the statistics are derived from raster values that directly intersect each edge.
 }
 \examples{
 \donttest{
- library(sp)
  library(sf)
- library(raster)
  library(terra)  
-   data(rasters)
-   data(ralu.site)
 
- xvars <- rast(stack(rasters))
- ralu.site <- as(ralu.site, "sf")
+ data(ralu.site)	
+ xvars <- rast(system.file("extdata/covariates.tif", package="GeNetIt"))
  
   ( dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
                             max.dist = 1500) )

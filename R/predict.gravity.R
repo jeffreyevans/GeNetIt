@@ -82,10 +82,10 @@
 #' @import nlme
 #' @method predict gravity
 #' @export
-predict.gravity <- function(object, newdata, y = NULL, x = NULL, groups = NULL, 
-                            back.transform = c("none", "simple", "Miller", "Naihua"), ...) {
-  back.transform = back.transform[1]  	   
-  if(class(object$gravity) == "lme") { 
+predict.gravity <- function(object, newdata,  groups = NULL, 
+                back.transform = c("none", "simple", "Miller", "Naihua"), ...) {
+  back.transform = back.transform[1]   
+  if(inherits(object$gravity, "lme")) { 
     fixed.fml <- object$fixed.formula 
     random.fml <- object$random.formula 
       m <- do.call(nlme::lme.formula, list(fixed = object$fixed.formula,
@@ -97,9 +97,10 @@ predict.gravity <- function(object, newdata, y = NULL, x = NULL, groups = NULL,
 		  p <- stats::predict(m, newdata, Q = groups)
 	  } else {
         message("Making population-level constrained predictions")
-		  p <- nlme:::predict.lme(m, newdata, level = 0)
+		  # p <- nlme:::predict.lme(m, newdata, level = 0)
+		  p <- stats::predict(m, newdata, level = 0)
 	  } 
-  } else if(class(object) == "lm") {
+  } else if(!inherits(object$gravity, "lm")) {
     message("Making population-level unconstrained predictions")
       p <- stats::predict(object, newdata)
   } 

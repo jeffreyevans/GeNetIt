@@ -27,6 +27,8 @@ gravity(
 
 \item{data}{data.frame object containing model data}
 
+\item{fit.method}{Method used to fit model c("REML", "ML")}
+
 \item{ln}{Natural log transform data (TRUE/FALSE)}
 
 \item{constrained}{Specify constrained model, if FALSE a linear model (lm) 

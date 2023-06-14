@@ -20,15 +20,11 @@
 #'
 #' @examples
 #' \donttest{
-#'  library(sp)
 #'  library(sf)
-#'  library(raster)
 #'  library(terra)  
-#'    data(rasters)
-#'    data(ralu.site)
-#'	
-#'  xvars <- rast(stack(rasters))
-#'  ralu.site <- as(ralu.site, "sf")
+#'
+#'  data(ralu.site)	
+#'  xvars <- rast(system.file("extdata/covariates.tif", package="GeNetIt"))
 #'  
 #'   ( dist.graph <- knn.graph(ralu.site, row.names = ralu.site$SiteName, 
 #'                             max.dist = 1500) )
@@ -62,17 +58,10 @@
 #' }
 #' 
 #' @export graph.statistics
-graph.statistics <- function(x, r, stats = c("min", "mean", "max"), buffer = NULL) {						 
-  if (!any(class(r)[1] == c("SpatRaster", "RasterLayer", "RasterStack", "RasterBrick"))) 
-    stop("r must be a terra or raster class object") 
-  if (!any(class(x)[1] == c("SpatialLinesDataFrame", "sf"))) 
-    stop("x must be a sp SpatialLinesDataFrame or sf LINESTRING object") 
-  if(inherits(x, "SpatialLinesDataFrame")) {
-    x <- sf::st_as_sf(x)
-  }    
-  if(!inherits(r, "SpatRaster")) {
-    r <- terra::rast(r)
-  }
+graph.statistics <- function(x, r, stats = c("min", "mean", "max"), 
+                             buffer = NULL) {						 
+  if (!inherits(r, "SpatRaster")) 
+    stop("r must be a terra SpatRaster class object") 
   if(attributes(x$geometry)$class[1] != "sfc_LINESTRING")
     stop("x must be a sf sfc_LINE object")
   if(sf::st_is_longlat(x))

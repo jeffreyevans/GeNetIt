@@ -9,7 +9,6 @@
 #'                        duplicate edges ie, from-to and to-from 
 #' @param long.lat       (FALSE/TRUE) Coordinates are longitude-latitude decimal degrees, 
 #'                        in which case distances are measured in kilometers
-#' @param as.sp          (FALSE/TRUE) Output sp class SpatialLinesDataFrame object
 #' 
 #' @return   SpatialLinesDataFrame object with:
 #' * i        Name of column in x with FROM (origin) index
@@ -34,7 +33,6 @@
 #' @examples
 #'  library(sf)
 #'    data(ralu.site, package="GeNetIt")
-#'    ralu.site <- as(ralu.site, "sf")
 #'	
 #'  # Saturated spatial graph
 #'  sat.graph <- knn.graph(ralu.site, row.names=ralu.site$SiteName)
@@ -58,18 +56,18 @@
 #'		
 #' @export			  
 knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL, 
-                       long.lat = FALSE, drop.lower = FALSE, as.sp = FALSE) 
+                       long.lat = FALSE, drop.lower = FALSE) 
    {
-   if(methods::is(x, "Spatial")) x <- sf::st_as_sf(x)
-     if(!methods::is(x, "sf"))
-       stop("x does not appear to be a valid spatial class of sf or sp")
-	if(attributes(x$geometry)$class[1] != "sfc_POINT")
-       stop("x is not POINT geometry") 
-	if(is.null(k)) k=(dim(x)[1] - 1)
-	  knn <- suppressWarnings( spdep::knearneigh(sf::st_coordinates(x), k = k, 
-	                           longlat = long.lat) )
-      knn.nb <- suppressWarnings( spdep::knn2nb(knn, row.names = row.names, 
-	                             sym = FALSE) )
+ 
+  if (!inherits(x, "sf")) 
+    stop("x must be a sf POINT object") 
+  if(attributes(x$geometry)$class[1] != "sfc_POINT")
+    stop("x must be a sf sfc_POINT object")   		  
+  if(is.null(k)) k=(dim(x)[1] - 1)
+	knn <- suppressWarnings( spdep::knearneigh(sf::st_coordinates(x), k = k, 
+	                                           longlat = long.lat) )
+    knn.nb <- suppressWarnings( spdep::knn2nb(knn, row.names = row.names, 
+	                                          sym = FALSE) )
     if(!is.na(sf::st_crs(x))) { 
 	  prj <- sf::st_crs(x)
 	} else { 
@@ -81,7 +79,8 @@ knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL,
       if (length(unique(row.names)) != length(row.names)) 
 	    stop("non-unique row.names given")
     }
-	if (knn$np < 1) stop("non-positive number of spatial units")   
+	if (knn$np < 1) 
+	  stop("non-positive number of spatial units")   
 	if (is.null(row.names)) row.names <- as.character(1:knn$np)
 	graph <- spdep::nb2lines(knn.nb, coords = sf::st_coordinates(x), 
 	                         proj4string = prj, as_sf=TRUE)
@@ -108,6 +107,5 @@ knn.graph <- function (x, row.names = NULL, k = NULL, max.dist = NULL,
     }
   	    if(drop.lower == TRUE) { graph <- rm.lower(graph)  }  
 	  if(!is.null(max.dist)) graph <- graph[graph$length <= max.dist,] 
-    if(as.sp) graph <- sf::as_Spatial(graph)	
   return( graph )
 }

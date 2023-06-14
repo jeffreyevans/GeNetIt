@@ -7,6 +7,7 @@
 #' @param d              Name of column containing distance
 #' @param group          Name of grouping column (from or to)
 #' @param data           data.frame object containing model data
+#' @param fit.method     Method used to fit model c("REML", "ML")
 #' @param ln             Natural log transform data (TRUE/FALSE) 
 #' @param constrained    Specify constrained model, if FALSE a linear model (lm) 
 #'                       is run (TRUE/FALSE)
@@ -79,7 +80,7 @@
 #' @seealso \code{\link[stats]{lm}} for linear model ... options
 #'
 #' @import nlme
-#' @exportClass gravity
+#' @export gravity
 #' @export
 gravity <- function (y, x, d, group, data, fit.method = c("REML", "ML"),  
                      ln = TRUE, constrained = TRUE, ...) 
@@ -110,7 +111,7 @@ gravity <- function (y, x, d, group, data, fit.method = c("REML", "ML"),
                          paste(x, collapse = "+"))), data = gdata, 
 						 random=stats::as.formula(paste(paste(y, 1, sep = " ~ "), 
 	                     group, sep = " | ")))
-		if(fit.method == "ML") gvlmm <- update(gvlmm, method="ML") 
+		if(fit.method == "ML") gvlmm <- stats::update(gvlmm, method="ML") 
 	  gm <- list(fixed.formula = fixed.call, 
 	             random.formula = random.call, 
 		         gravity = gvlmm, 

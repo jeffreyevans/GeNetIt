@@ -21,14 +21,15 @@
 #' 
 #' x = c("DEPTH_F", "HLI_F", "CTI_F", "cti", "ffp")
 #' ( null <-  gravity(y = "DPS", x = c("DISTANCE"), d = "DISTANCE",  
-#'                    group = "FROM_SITE", data = ralu.model, method = "ML") )
-#'
+#'                    group = "FROM_SITE", data = ralu.model, fit.method = "ML") )
 #' ( gm_h1 <- gravity(y = "DPS", x = x, d = "DISTANCE", group = "FROM_SITE", 
-#'                    data = ralu.model, ln = FALSE, method="ML") ) 
+#'                    data = ralu.model, ln = FALSE, fit.method="ML") ) 
 #' ( gm_h2 <- gravity(y = "DPS", x = x[1:3], d = "DISTANCE", group = "FROM_SITE", 
-#'                    data = ralu.model, ln = FALSE, method="ML") ) 
+#'                    data = ralu.model, ln = FALSE, fit.method="ML") ) 
 #' ( gm_h3 <- gravity(y = "DPS", x = x[c(4:5)], d = "DISTANCE", group = "FROM_SITE", 
-#'                    data = ralu.model, ln = FALSE, method="ML") ) 
+#'                    data = ralu.model, ln = FALSE, fit.method="ML") ) 
+#' #( gm_h4 <- gravity(y = "DPS", x = x[c(4:5)], d = "DISTANCE", group = "FROM_SITE", 
+#' #                   data = ralu.model, ln = FALSE, fit.method="REML") ) 
 #' 
 #' compare.models(null, gm_h1, gm_h2, gm_h3)
 #'
@@ -57,19 +58,21 @@ compare.models <- function(...) {
   }
   back.transform <- function(y) exp(y + 0.5 * stats::var(y))
   rmse <- function(y, x) { sqrt(mean((y - x)^2)) }
-    mfun <- function(x, m = method[1]) {
+    mfun <- function(x) {
+	  method <- x$method
+	  np = ncol(x$data)-1
       if( method == "REML" ) {
         xdf <- data.frame(log.likelihood = x$logLik,
                           RMSE = round(rmse(back.transform(x$y), 
-						               back.transform(x$fit)),4),
-                          nparms = x$np )  
+						  back.transform(x$fit[,"fixed"])),4),
+                          nparms = np, fit.method=method)  
       } else if( method == "ML" ) {
-	    if(is.null(x$np)) { np = 0 } else { np = x$np } 
         xdf <- data.frame(AIC = stats::AIC(x),
 		                  BIC = stats::BIC(x),
                           log.likelihood = x$logLik,
-                          RMSE = round(rmse(x$y,x$fit),4),
-						  nparms = np )
+                          RMSE = round(rmse(back.transform(x$y), 
+						  back.transform(x$fit[,"fixed"])),4),
+						  nparms = np, fit.method=method)
       }
 	  return(xdf)  
 	}

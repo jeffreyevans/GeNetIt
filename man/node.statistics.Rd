@@ -28,15 +28,11 @@ If no buffer is specified, at-node raster values are returned
 }
 \examples{
 \donttest{
- library(sp)
  library(sf)
- library(raster)
  library(terra)  
-   data(rasters)
-   data(ralu.site)
 
- xvars <- rast(stack(rasters))
- ralu.site <- as(ralu.site, "sf")
+ data(ralu.site)
+ xvars <- rast(system.file("extdata/covariates.tif", package="GeNetIt"))
    
  skew <- function(x, na.rm = TRUE) {  
            if (na.rm) x <- x[!is.na(x)]

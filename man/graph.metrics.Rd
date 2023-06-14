@@ -32,12 +32,10 @@ Please note; graph metrics are not valid for a saturated graph (all connections)
 }
 \examples{
  library(sf)
-   data(ralu.site, package="GeNetIt")
-   
- ralu.site <- as(ralu.site, "sf")
- graph <- knn.graph(ralu.site, 
-   row.names=ralu.site$SiteName, 
-max.dist = 2500)
+ data(ralu.site, package="GeNetIt")
+
+ graph <- knn.graph(ralu.site, row.names=ralu.site$SiteName, 
+                   max.dist = 2500)
      plot(st_geometry(graph))
 
  ( m <- graph.metrics(graph, ralu.site, "SiteName") )

@@ -33,4 +33,13 @@ GeNetIt_0.1-4
   (thanks to Yoav Ram for identifying bug and suggesting a fix)
   
 * Fixed bug in predict function and now allows population or individual level predictions 
+
+GeNetIt_0.1-5
+=================
+
+* Moved all spatial functions to sf and terra
   
+GeNetIt_0.1-6
+=================
+
+* Depreciated all dependencies and coercions for sp and raster

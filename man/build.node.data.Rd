@@ -37,7 +37,8 @@ data(ralu.site)
 
 # Build from/to site (node) level data structure 
 site.parms = c("AREA_m2", "PERI_m", "Depth_m", "TDS")
-site <- build.node.data(ralu.site@data, group.ids = c("SiteName"), 
+site <- build.node.data(sf::st_drop_geometry(ralu.site), 
+                        group.ids = c("SiteName"), 
                         from.parms = site.parms ) 
  
 }

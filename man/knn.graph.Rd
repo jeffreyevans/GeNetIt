@@ -10,8 +10,7 @@ knn.graph(
   k = NULL,
   max.dist = NULL,
   long.lat = FALSE,
-  drop.lower = FALSE,
-  as.sp = FALSE
+  drop.lower = FALSE
 )
 }
 \arguments{
@@ -28,8 +27,6 @@ in which case distances are measured in kilometers}
 
 \item{drop.lower}{(FALSE/TRUE) Drop lower triangle of matrix representing
 duplicate edges ie, from-to and to-from}
-
-\item{as.sp}{(FALSE/TRUE) Output sp class SpatialLinesDataFrame object}
 }
 \value{
 SpatialLinesDataFrame object with:
@@ -50,7 +47,6 @@ Creates a kNN or saturated graph SpatialLinesDataFrame object
 \examples{
  library(sf)
    data(ralu.site, package="GeNetIt")
-   ralu.site <- as(ralu.site, "sf")
 
  # Saturated spatial graph
  sat.graph <- knn.graph(ralu.site, row.names=ralu.site$SiteName)

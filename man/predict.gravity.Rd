@@ -7,8 +7,6 @@
 \method{predict}{gravity}(
   object,
   newdata,
-  y = NULL,
-  x = NULL,
   groups = NULL,
   back.transform = c("none", "simple", "Miller", "Naihua"),
   ...

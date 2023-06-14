@@ -15,12 +15,10 @@
 #'
 #' @examples
 #'  library(sf)
-#'    data(ralu.site, package="GeNetIt")
-#'    
-#'  ralu.site <- as(ralu.site, "sf")
-#'  graph <- knn.graph(ralu.site, 
-#'    row.names=ralu.site$SiteName, 
-#'	max.dist = 2500)
+#'  data(ralu.site, package="GeNetIt")
+#' 
+#'  graph <- knn.graph(ralu.site, row.names=ralu.site$SiteName, 
+#'	                   max.dist = 2500)
 #'      plot(st_geometry(graph))
 #'
 #'  ( m <- graph.metrics(graph, ralu.site, "SiteName") )
@@ -37,20 +35,18 @@
 graph.metrics <- function(x, node.pts, node.name=NULL, direct = FALSE, 
                      metric = c("betweenness", "degree", "closeness")) {
    if(!any(which(utils::installed.packages()[,1] %in% c("igraph", "sfnetworks") )))
-       stop("please install igraph and sfnetworks and packageS before running this function")
+     stop("please install igraph and sfnetworks packages before running this function")
     m <- c("betweenness", "degree", "closeness") 
       m <- m[m %in% metric]
-    if(inherits(x, "SpatialLinesDataFrame")) {
-      x <- sf::st_as_sf(x)
-    }
+
+    if(!inherits(x, "sf")) 
+      stop("x must be a sf LINESTRING object") 	  
     if(attributes(x$geometry)$class[1] != "sfc_LINESTRING")
-      stop("x must be a sf sfc_LINE object")    
-    if(inherits(node.pts, "SpatialPointsDataFrame")) {
-     node.pts <- sf::st_as_sf(node.pts)
-    }  
+      stop("x must be a sf sfc_LINE object") 
+    if (!inherits(node.pts, "sf")) 
+      stop("x must be a sf POINT object") 	  	
     if(attributes(node.pts$geometry)$class[1] != "sfc_POINT")
       stop("node.pts must be a sf sfc_LINE object")
- 
     if(is.null(node.name)) {
       node.name = row.names(node.pts)
     } else {
@@ -62,8 +58,11 @@ graph.metrics <- function(x, node.pts, node.name=NULL, direct = FALSE,
 	 						     length_as_weight = TRUE,
    							     edges_as_lines = TRUE)
     gm <- data.frame(sf::st_drop_geometry(node.pts[,node.name]))
-	  #w <- g$weight/sum(g$weight)
-	  w <- g |> tidygraph::activate("edges") |> dplyr::pull(weight) |> as.numeric()
+	  # w <- g$weight/sum(g$weight)
+	  w <- g |> 
+	    tidygraph::activate("edges") |> 
+		  dplyr::pull("weight") |> 
+		    as.numeric()	
         w[w <= 0] <- 1
           w = w / sum(w)
 	  if("betweenness" %in% m)

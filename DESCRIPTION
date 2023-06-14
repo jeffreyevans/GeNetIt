@@ -1,8 +1,8 @@
 Package: GeNetIt
 Type: Package
 Title: Spatial Graph-Theoretic Genetic Gravity Modelling
-Version: 0.1-5
-Date: 2022-03-01
+Version: 0.1-6
+Date: 2023-06-04
 Authors@R: c(person(family="Evans", given="Jeffrey S.", email = "jeffrey_evans@tnc.org", 
              role = c("aut", "cre")), person(family="Murphy", given="Melanie", role = "aut") )
 Description: Implementation of spatial graph-theoretic genetic gravity models.
@@ -11,19 +11,17 @@ Description: Implementation of spatial graph-theoretic genetic gravity models.
     associated raster variables and building unconstrained and singly constrained
     gravity models.
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.2.0),
 	nlme
 Imports:
-    exactextractr,
-	methods,
-    sp,
-    spdep,
-    raster,
+	exactextractr,
 	terra,
-	sf
-Suggests:
-  sfnetworks,
-  igraph  
+	sf,
+    sfnetworks,
+    igraph,
+    dplyr, 
+    tidygraph,
+    spdep
 Maintainer: Jeffrey S. Evans <jeffrey_evans@tnc.org>
 License: GPL-3
 URL: https://github.com/jeffreyevans/GeNetIt
@@ -31,4 +29,4 @@ NeedsCompilation: no
 Repository: CRAN
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3

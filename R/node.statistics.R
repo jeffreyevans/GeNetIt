@@ -19,15 +19,11 @@
 #'  
 #' @examples
 #' \donttest{
-#'  library(sp)
 #'  library(sf)
-#'  library(raster)
 #'  library(terra)  
-#'    data(rasters)
-#'    data(ralu.site)
-#'	
-#'  xvars <- rast(stack(rasters))
-#'  ralu.site <- as(ralu.site, "sf")
+#'
+#'  data(ralu.site)
+#'  xvars <- rast(system.file("extdata/covariates.tif", package="GeNetIt"))
 #'    
 #'  skew <- function(x, na.rm = TRUE) {  
 #'            if (na.rm) x <- x[!is.na(x)]
@@ -49,19 +45,13 @@
 #' @export node.statistics
 node.statistics <- function(x, r, buffer = NULL, 
                             stats = c("min", "median", "max") ) {
-  if (!any(class(r)[1] == c("SpatRaster", "RasterLayer", "RasterStack", "RasterBrick"))) 
-    stop("r must be a terra or raster class object") 
-  if (!any(class(x)[1] == c("SpatialPointsDataFrame", "sf"))) 
-    stop("x must be a sp SpatialPointsDataFrame or sf POINT object") 
-  if(inherits(x, "SpatialPointsDataFrameDataFrame")) {
-    x <- sf::st_as_sf(x)
-  }  
-  if(inherits(x, "SpatialPointsDataFrame")) {
-    x <- sf::st_as_sf(x)
-  } 
-  if(!inherits(r, "SpatRaster")) {
-    r <- terra::rast(r)
-  }   
+
+  if (!inherits(r, "SpatRaster")) 
+    stop("r must be a terra SpatRaster class object") 
+  if (!inherits(x, "sf")) 
+    stop("x must be a sf POINT object") 
+  if(attributes(x$geometry)$class[1] != "sfc_POINT")
+    stop("x must be a sf sfc_POINT object")   	
   if(sf::st_is_longlat(x))
     warning("Projection is not defined or in lat/long, is it recommended that you 
       project your data to prevent planar distortions in the buffer")
